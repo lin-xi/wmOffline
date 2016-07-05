@@ -1,9 +1,11 @@
 // var Ascii = require('ascii');
 var fs = require('fs');
-var zip = require('adm-zip');
+var Zip = require('adm-zip');
+var md5 = require('md5');
+var path = require('path');
 var cli = {};
 
-var _ = {}, folders = [], releaseConfig, watchTimer, output;
+var _ = {}, config, watchTimer, output, outputPath;
 
 cli.version = function() {
     // var pic = new Ascii('logo.png');
@@ -12,6 +14,19 @@ cli.version = function() {
     // });
     console.log('version 0.0.5');
 }
+
+cli.help = function(){
+    var content = [
+        '',
+        '  Options:',
+        '',
+        '    -h, --help     output usage information',
+        '    -v, --version  output the version number',
+        '    start,     start the offline dev tool and watch the change of the current folder',
+        ''
+    ];
+    console.log(content.join('\n'));
+};
 
 cli.run = function(argv){
     cli.processCWD = process.cwd();
@@ -23,6 +38,7 @@ cli.run = function(argv){
         cli.version();
     } else if(first === 'start'){
         cli.watch();
+        packAndRelease();
     } else {
     }
 };
@@ -32,25 +48,24 @@ cli.watch = function(argv){
     var stat = fs.statSync(configPath);
     if(stat.isFile()){
         var jsData = fs.readFileSync(configPath);
-        releaseConfig = JSON.parse(jsData);
-        runWatch(cli.processCWD);
+        try{
+            config = JSON.parse(jsData);
+        } catch (e){
+            console.error('"offline-config.json" parse error\n, see https://github.com/lin-xi/wmOffline');
+            return;
+        }
+        var root = path.resolve(cli.processCWD, config.root);
+        if(root == cli.processCWD){
+            console.log("config [root] can not be the project root directory, it must be a child directory");
+        } else {
+            console.log("[wathing root [" + root  + "] ...");
+            runWatch(root);
+        }
     } else {
-        console.error('no file "offline-config.json" found in current fold');
+        console.error('no file "offline-config.json" found in current fold\n, see https://github.com/lin-xi/wmOffline');
     }
 };
 
-cli.help = function(){
-    var content = [
-        '',
-        '  Options:',
-        '',
-        '    -h, --help     output usage information',
-        '    -v, --version  output the version number',
-        '    start     start the offline dev tool and watch the change of the current folder',
-        ''
-    ]);
-    console.log(content.join('\n'));
-};
 
 function runWatch(path) {
     fs.watch(path, {
@@ -66,16 +81,22 @@ function runWatch(path) {
     });
 }
 
-function packAndRelease(path, handle) {
+function packAndRelease() {
+    var root = path.resolve(cli.processCWD, config.root);
+    console.log('[ziping...]')
     var zip = new Zip();
-    zip.addLocalFolder(cli.processCWD);
-    output = cli.processCWD + '/output_' + md5(Date.now()) + '.zip';
-    zip.writeZip(output);
-    doUpload();
+    zip.addLocalFolder(root);
+    output = 'output_' + md5(Date.now()) + '.zip';
+    outputPath = cli.processCWD + '/' + output;
+    zip.writeZip(outputPath);
+    console.log("[zip done]");
+    doUpload(function(){
+        fs.unlink(outputPath);
+    });
 }
 
-function doUpload() {
-    var deploy = releaseConfig.deploy;
+function doUpload(func) {
+    var deploy = config.deploy;
     if (deploy && deploy.length > 0) {
         deploy.forEach(function (item, i) {
             var httpOption;
@@ -88,18 +109,87 @@ function doUpload() {
                     method: "POST",
                 };
             }
-            var fileData = _.read(output);
-            var toPath = item.to + path.replace(outPath, '');
+            var fileData = _.read(outputPath);
+            var toPath = item.to + '/' + output;
             _.upload(httpOption, {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
-                console.log('[upload] ', path, " >> ", toPath);
+                console.log('[upload] ', output, " >> ", toPath);
+                func && func();
             }, function (err) {
                 console.log('error', err);
             });
         });
     }
 }
+
+var TEXT_FILE_EXTS = [
+        'css', 'tpl', 'js', 'php',
+        'txt', 'json', 'xml', 'htm',
+        'text', 'xhtml', 'html', 'md',
+        'conf', 'po', 'config', 'tmpl',
+        'coffee', 'less', 'sass', 'jsp',
+        'scss', 'manifest', 'bak', 'asp',
+        'tmp', 'haml', 'jade', 'aspx',
+        'ashx', 'java', 'py', 'c', 'cpp',
+        'h', 'cshtml', 'asax', 'master',
+        'ascx', 'cs', 'ftl', 'vm', 'ejs',
+        'styl', 'jsx', 'handlebars'
+    ],
+    IMAGE_FILE_EXTS = [
+        'svg', 'tif', 'tiff', 'wbmp',
+        'png', 'bmp', 'fax', 'gif',
+        'ico', 'jfif', 'jpe', 'jpeg',
+        'jpg', 'woff', 'cur', 'webp',
+        'swf', 'ttf', 'eot', 'woff2'
+    ],
+    MIME_MAP = {
+        //text
+        'css': 'text/css',
+        'tpl': 'text/html',
+        'js': 'text/javascript',
+        'jsx': 'text/javascript',
+        'php': 'text/html',
+        'asp': 'text/html',
+        'jsp': 'text/jsp',
+        'txt': 'text/plain',
+        'json': 'application/json',
+        'xml': 'text/xml',
+        'htm': 'text/html',
+        'text': 'text/plain',
+        'md': 'text/plain',
+        'xhtml': 'text/html',
+        'html': 'text/html',
+        'conf': 'text/plain',
+        'po': 'text/plain',
+        'config': 'text/plain',
+        'coffee': 'text/javascript',
+        'less': 'text/css',
+        'sass': 'text/css',
+        'scss': 'text/css',
+        'styl': 'text/css',
+        'manifest': 'text/cache-manifest',
+        //image
+        'svg': 'image/svg+xml',
+        'tif': 'image/tiff',
+        'tiff': 'image/tiff',
+        'wbmp': 'image/vnd.wap.wbmp',
+        'webp': 'image/webp',
+        'png': 'image/png',
+        'bmp': 'image/bmp',
+        'fax': 'image/fax',
+        'gif': 'image/gif',
+        'ico': 'image/x-icon',
+        'jfif': 'image/jpeg',
+        'jpg': 'image/jpeg',
+        'jpe': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'eot': 'application/vnd.ms-fontobject',
+        'woff': 'application/font-woff',
+        'woff2': 'application/font-woff',
+        'ttf': 'application/octet-stream',
+        'cur': 'application/octet-stream'
+    };
 
 _.read = function (path, convert) {
     var content;
