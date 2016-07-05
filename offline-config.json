@@ -1,0 +1,10 @@
+{
+	"deploy": [
+		{
+			"receiver": "http://cp01-shimiao01.epc.baidu.com:8797/receiver.php",
+			"from": "./static",
+			"to": "/home/map/odp_cater/webroot/static/pinzhi2",
+			"exclude": "svn|rar|psd|docx"
+		}
+	]
+}

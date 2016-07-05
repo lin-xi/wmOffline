@@ -1,0 +1,9 @@
+{
+    "name":    "wm-offline",
+    "version": "0.0.1",
+    "repository" :
+    {
+        "type" : "git",
+        "url" : "https://github.com/lin-xi/wmOffline.git"
+    }
+}
