@@ -1,25 +1,24 @@
 {
-    "name":    "wm-offline",
-    "version": "0.0.1",
-    "description": "waimai offline dev tool",
-    "main": "offline.js",
-    "bin": {
-        "fis-plus": "bin/fis-plus",
-        "fis-pc": "bin/fis-plus",
-        "fisp": "bin/fis-plus"
-    },
-    "repository": {
-        "type" : "git",
-        "url" : "https://github.com/lin-xi/wmOffline.git"
-    },
-    "devDependencies": {
-        
-    },
-    "keywords": [
-        "wm-offline",
-        "wmOffline",
-        "Offline"
-    ],
-    "author": "linxi",
-    "license": "MIT"
+  "name": "wm-offline",
+  "version": "0.0.4",
+  "description": "waimai offline dev tool",
+  "main": "client.js",
+  "bin": {
+    "wm-offline": "bin/offline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lin-xi/wmOffline.git"
+  },
+  "keywords": [
+    "wm-offline",
+    "wmOffline",
+    "Offline"
+  ],
+  "author": "linxi",
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.4.7",
+    "md5": "^2.1.0"
+  }
 }
