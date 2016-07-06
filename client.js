@@ -97,7 +97,7 @@ function packAndRelease() {
             fs.writeFileSync(outputPath, content);
             console.log("[zip done]");
             doUpload(function(){
-                fs.unlink(outputPath);
+                // fs.unlink(outputPath);
             });
         }catch(e){
             console.error(e);
