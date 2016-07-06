@@ -1,6 +1,6 @@
 // var Ascii = require('ascii');
 var fs = require('fs');
-var Zip = require('adm-zip');
+var Zip = require('jszip');
 var md5 = require('md5');
 var path = require('path');
 var cli = {};
@@ -84,15 +84,56 @@ function runWatch(path) {
 function packAndRelease() {
     var root = path.resolve(cli.processCWD, config.root);
     console.log('[ziping...]')
-    var zip = new Zip();
-    zip.addLocalFolder(root);
-    output = 'output_' + md5(Date.now()) + '.zip';
+    // output = 'output_' + md5(Date.now()) + '.zip';
+    output = 'output.zip';
     outputPath = cli.processCWD + '/' + output;
-    zip.writeZip(outputPath);
-    console.log("[zip done]");
-    doUpload(function(){
-        fs.unlink(outputPath);
+    var zip = new Zip();
+    traverse(zip, root);
+
+    console.log('traverse done:');
+    zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
+        console.log("done");
+        try{
+            fs.writeFileSync(outputPath, content);
+            console.log("[zip done]");
+            doUpload(function(){
+                    //fs.unlink(outputPath);
+            });
+        }catch(e){
+            console.error(e);
+        }
     });
+}
+
+function traverse(zip, filePath) {
+    var state = fs.statSync(filePath);
+    if (state.isDirectory()) {
+        // folderHandle(path);
+        var foler = filePath.replace(path.dirname(filePath)+ '/', '')
+        var fz = zip.folder(foler);
+        console.log('add folder:' + foler);
+        var files = fs.readdirSync(filePath);
+        if (files) {
+            files.forEach(function (item, index) {
+                var tmpPath = filePath + '/' + item;
+                var fileStat = fs.statSync(tmpPath);
+                if (fileStat) {
+                    if (fileStat.isDirectory()) {
+                        traverse(fz, tmpPath);
+                    } else {
+                        fz.file(item, fs.readFileSync(tmpPath));
+                        console.log('add file:'+ item);
+                        // fileHandle(tmpPath);
+                    }
+                }
+            });
+        }
+    } else {
+        // fileHandle(path);
+        console.log('add file:'+ filePath);
+        var fp = filePath.replace(path.dirname(filePath) + '/', '');
+        zip.file(fp);
+    }
 }
 
 function doUpload(func) {
@@ -115,6 +156,7 @@ function doUpload(func) {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
                 console.log('[upload] ', output, " >> ", toPath);
+                console.log('[url] ', "http://cp01-shimiao01.epc.baidu.com:8086/static/offline/"+output);
                 func && func();
             }, function (err) {
                 console.log('error', err);

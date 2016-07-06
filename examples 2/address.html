@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>请选择地址</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src='http://api.map.baidu.com/api?v=2.0&ak=4704ca18dbdc3ec1510576ba2aa4797e'></script>
+
+<link href="11_1467691565275.css" rel="stylesheet"></head>
+
+<body>
+    <div id="pinzhi"></div>
+    <div id="log-div"></div>
+    <script src="vendor.dll.js"></script>
+<script src="address_1467691565275.js"></script></body>
+<!--<html><head></head><body></body></html>-->
+<script type="text/javascript">
+        var debug = false;
+        if(debug){
+            var logDom = document.querySelector('#log-div');
+            logDom.style.display = 'block';
+            window.log = function(){
+                var args = Array.prototype.slice.call(arguments, 0);
+                var div = document.createElement('div');
+                div.innerHTML = args.join(' ');
+                logDom.appendChild(div);
+                logDom.scrollTop = 999999999;
+            }
+        }
+</script>
+</html>
