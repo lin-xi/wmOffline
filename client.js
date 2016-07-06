@@ -88,11 +88,11 @@ function packAndRelease() {
     output = 'output.zip';
     outputPath = cli.processCWD + '/' + output;
     var zip = new Zip();
-    traverse(zip, root);
+    traverse(zip, root, true);
 
-    console.log('traverse done:');
+    // console.log('traverse done:');
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
-        console.log("done");
+        // console.log("done");
         try{
             fs.writeFileSync(outputPath, content);
             console.log("[zip done]");
@@ -105,13 +105,18 @@ function packAndRelease() {
     });
 }
 
-function traverse(zip, filePath) {
+function traverse(zip, filePath, first) {
     var state = fs.statSync(filePath);
     if (state.isDirectory()) {
         // folderHandle(path);
-        var foler = filePath.replace(path.dirname(filePath)+ '/', '')
-        var fz = zip.folder(foler);
-        console.log('add folder:' + foler);
+        var fz;
+        if(first){
+            fz = zip;
+        } else {
+            var foler = filePath.replace(path.dirname(filePath)+ '/', '')
+            fz = zip.folder(foler);
+            // console.log('add folder:' + foler);
+        }
         var files = fs.readdirSync(filePath);
         if (files) {
             files.forEach(function (item, index) {
@@ -119,10 +124,10 @@ function traverse(zip, filePath) {
                 var fileStat = fs.statSync(tmpPath);
                 if (fileStat) {
                     if (fileStat.isDirectory()) {
-                        traverse(fz, tmpPath);
+                        traverse(fz, tmpPath, false);
                     } else {
                         fz.file(item, fs.readFileSync(tmpPath));
-                        console.log('add file:'+ item);
+                        // console.log('add file:'+ item);
                         // fileHandle(tmpPath);
                     }
                 }
@@ -130,7 +135,7 @@ function traverse(zip, filePath) {
         }
     } else {
         // fileHandle(path);
-        console.log('add file:'+ filePath);
+        // console.log('add file:'+ filePath);
         var fp = filePath.replace(path.dirname(filePath) + '/', '');
         zip.file(fp);
     }
