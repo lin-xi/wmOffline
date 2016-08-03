@@ -3,7 +3,16 @@ var fs = require('fs');
 var Zip = require('jszip');
 var md5 = require('md5');
 var path = require('path');
+var child = require('child_process');
+var gui = require('./gui');
+var ProgressBar = require('progress');
+var cache = require('memory-cache');
+var md5 = require('md5');
+var Client = require('./lib/client/client');
+var Message = require('./lib/client/message');
+
 var cli = {};
+var socket, group;
 
 var _ = {}, config, watchTimer, output, outputPath;
 
@@ -12,7 +21,7 @@ cli.version = function() {
     // pic.convert(function(err, result) {
     //     console.log(result);
     // });
-    console.log('version 0.0.5');
+    console.log('version 0.1.1');
 }
 
 cli.help = function(){
@@ -22,7 +31,8 @@ cli.help = function(){
         '',
         '    -h, --help     output usage information',
         '    -v, --version  output the version number',
-        '    start,     start the offline dev tool and watch the change of the current folder',
+        '    watch,     start the offline dev tool and watch the change of the configtion\'s watch folder',
+        '    open,      open the GUI page',
         ''
     ];
     console.log(content.join('\n'));
@@ -30,17 +40,24 @@ cli.help = function(){
 
 cli.run = function(argv){
     cli.processCWD = process.cwd();
+    group = md5(Math.random() * 10000000 + Date.now());
+    cache.put('group', group);
 
-    var first = argv[2];
-    if(first === '-h' ||  first === '--help'){
-        cli.help();
-    } else if(first === '-v' || first === '--version'){
-        cli.version();
-    } else if(first === 'start'){
-        cli.watch();
-        packAndRelease();
-    } else {
-    }
+    setUpSockect(group, function(){
+        var first = argv[2];
+        if(first === '-h' ||  first === '--help'){
+            cli.help();
+        } else if(first === '-v' || first === '--version'){
+            cli.version();
+        } else if(first === 'watch'){
+            cli.watch();
+            gui.open(group);
+            packAndRelease();
+        } else if(first === 'open'){
+            gui.open(group);
+        } else {
+        }
+    });
 };
 
 cli.watch = function(argv){
@@ -54,18 +71,17 @@ cli.watch = function(argv){
             console.error('"offline-config.json" parse error\n, see https://github.com/lin-xi/wmOffline');
             return;
         }
-        var root = path.resolve(cli.processCWD, config.root);
+        var root = path.resolve(cli.processCWD, config.watch);
         if(root == cli.processCWD){
-            console.log("config [root] can not be the project root directory, it must be a child directory");
+            console.log("config [watch] can not be the project root directory, it must be a child directory");
         } else {
-            console.log("[wathing root [" + root  + "] ...");
+            console.log("监听中...[" + root  + "]");
             runWatch(root);
         }
     } else {
         console.error('no file "offline-config.json" found in current fold\n, see https://github.com/lin-xi/wmOffline');
     }
 };
-
 
 function runWatch(path) {
     fs.watch(path, {
@@ -81,11 +97,44 @@ function runWatch(path) {
     });
 }
 
+function setUpSockect(group, func){
+    socket = new Client(group);
+    socket.ready(function(){
+        var pkg = fs.readFileSync('./package.json');
+        pkg = JSON.parse(pkg);
+
+        socket.checkVersion(pkg.version, function(result){
+            if(result.content == 1){
+                console.log('有新版本发布，正在升级...');
+                console.log('npm update wm-offline -g');
+                child.exec('npm update wm-offline -g', function(err, stdout, stderr){
+                    console.log(stdout);
+                    console.log('已更新至最新版本,请重新客户端');
+                    process.exit();
+                });
+            } else {
+                func && func();
+            }
+        });
+    });
+}
+
 function packAndRelease() {
-    var root = path.resolve(cli.processCWD, config.root);
-    console.log('[ziping...]')
-    // output = 'output_' + md5(Date.now()) + '.zip';
-    output = 'output.zip';
+    var root = path.resolve(cli.processCWD, config.watch);
+
+    var pos = 1;
+    var bar = new ProgressBar('zip [:bar] :percent', {
+        complete: '=',
+        incomplete: ' ',
+        width: 30,
+        total: 100
+    });
+    var timer = setInterval(function () {
+        bar.tick(pos++);
+    }, 100);
+
+    output = 'output_' + md5(Date.now()) + '.zip';
+    // output = 'output.zip';
     outputPath = cli.processCWD + '/' + output;
     var zip = new Zip();
     traverse(zip, root, true);
@@ -95,15 +144,21 @@ function packAndRelease() {
         // console.log("done");
         try{
             fs.writeFileSync(outputPath, content);
-            console.log("[zip done]");
-            doUpload(function(){
+            clearInterval(timer);
+            bar.tick(100);
+            bar.terminate();
+            console.log('\n');
+
+            doUpload(function(url){
                 // fs.unlink(outputPath);
+                socket.updateUrl(url);
             });
         }catch(e){
             console.error(e);
         }
     });
 }
+
 
 function traverse(zip, filePath, first) {
     var state = fs.statSync(filePath);
@@ -160,9 +215,11 @@ function doUpload(func) {
             _.upload(httpOption, {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
+                var url =  "http://cp01-shimiao01.epc.baidu.com:8086/static/offline/" + output;
+                console.log('\n');
                 console.log('[upload] ', output, " >> ", toPath);
-                console.log('[url] ', "http://cp01-shimiao01.epc.baidu.com:8086/static/offline/"+output);
-                func && func();
+                console.log('[url] ', url);
+                func && func(url);
             }, function (err) {
                 console.log('error', err);
             });

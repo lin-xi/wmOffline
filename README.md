@@ -6,16 +6,11 @@ waimai offline dev tool
 npm install -g wm-offline
 ```
 
-##usage
-```
-wm-offline start
-```
-
 ##config
 add offline-config.json to the root of your project
 ```
 {
-	"root": "./examples",
+	"watch": "./examples",
 	"deploy": [
 		{
 			"receiver": "http://cp01-shimiao01.epc.baidu.com:8797/receiver.php",
@@ -24,6 +19,18 @@ add offline-config.json to the root of your project
 	]
 }
 ```
+
+##usage
+```
+wm-offline watch
+```
+start the offline dev tool and watch the change of the configtion\'s watch folder
+
+```
+wm-offline open
+```
+open the GUI page
+
 
 ##receiver
 

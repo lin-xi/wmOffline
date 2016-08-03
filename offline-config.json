@@ -1,5 +1,5 @@
 {
-	"root": "./examples",
+	"watch": "./examples",
 	"deploy": [
 		{
 			"receiver": "http://cp01-shimiao01.epc.baidu.com:8797/receiver.php",
