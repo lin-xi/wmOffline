@@ -1,6 +1,12 @@
 # wmOffline
 waimai offline dev tool
 
+[![NPM version][npm-image]][npm-url]
+[![npm download][download-image]][download-url]
+
+[npm-url]: http://npmjs.org/package/wm-offline
+[download-url]: http://npmjs.org/package/wm-offline
+
 ##install
 ```
 npm install -g wm-offline
