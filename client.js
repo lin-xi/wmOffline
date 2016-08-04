@@ -34,7 +34,7 @@ cli.version = function() {
     console.log('              |_____________             \\   \\');
     console.log('        __  /  _,-----._     )           ｜   \\ ');
     console.log('       |_||/_-~         `.  /            ｜   | ]] ');
-    console.log('         |//    百度外卖   \ |            /   /_-~ ~-_');
+    console.log('         |//    百度外卖  \\ |            /   /_-~ ~-_');
     console.log('         //________________||           /  //________\\');
     console.log('        //__|______________| \\_________/  //_/.-\\ \\~-.');
     console.log('       ((_________________/_-o__________//_/ /   \\,\\   \\');
@@ -53,13 +53,14 @@ cli.help = function(){
         '',
         '  Options:',
         '',
-        '    -h,      output usage information',
-        '    -v,      output the version number',
+        '    -h,        output usage information',
+        '    -v,        output the version number',
         '    watch,     start the offline dev tool and watch the change of the configured folder',
         '    open,      open the GUI page',
         ''
     ];
     console.log(content.join('\n'));
+    process.exit();
 };
 
 cli.run = function(argv){
@@ -75,8 +76,8 @@ cli.run = function(argv){
             cli.version();
         } else if(first === 'watch'){
             cli.watch();
-            gui.open(group);
             packAndRelease();
+            gui.open(group);
         } else if(first === 'open'){
             gui.open(group);
         } else {
@@ -162,8 +163,8 @@ function packAndRelease() {
     outputPath = cli.processCWD + '/' + output;
     var zip = new Zip();
     traverse(zip, root, true);
-
     // console.log('traverse done:');
+    zip.file('socket-client.js', fs.readFileSync(__dirname + '/socket-client.js'));
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
         try{
