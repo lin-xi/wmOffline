@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 import QRCode from 'qrcode.react';
 import Client from '../components/client/client';
-import cache from 'memory-cache'
 
 
 const styles = {
@@ -35,14 +34,16 @@ const IndexPage = React.createClass({
         var group = this.getQueryString('group');
         var cli = this.client = new Client(group);
         cli.ready(function(){
-
             cli.onMessage('updateUrl', function(data){
                 me.setState({
                     url: data.content.url
                 });
             });
         });
+    },
 
+    componentDidUpdate() {
+        this.client.reload(this.getDebugUrl());
     },
 
     getQueryString: function (name) {
@@ -130,7 +131,6 @@ const IndexPage = React.createClass({
                         </div>
                     </span>
                 </div>
-
             </div>
         );
     },

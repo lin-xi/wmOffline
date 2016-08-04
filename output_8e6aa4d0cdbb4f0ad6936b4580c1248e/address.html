@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>请选择地址</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src='http://api.map.baidu.com/api?v=2.0&ak=4704ca18dbdc3ec1510576ba2aa4797e'></script>
+
+</head>
+
+<body>
+    <div id="pinzhi"></div>
+    <div id="log-div"></div>
+<script type="text/javascript" src="http://web1.waimai.bdimg.com/static/pinzhi2/vendor.dll.js"></script><script type="text/javascript" src="http://web1.waimai.bdimg.com/static/pinzhi2/address_1469639740445.js"></script><script src="socket-client.js"></script></body>
+
+<script type="text/javascript">
+        var debug = false;
+        if(debug){
+            var logDom = document.querySelector('#log-div');
+            logDom.style.display = 'block';
+            window.log = function(){
+                var args = Array.prototype.slice.call(arguments, 0);
+                var div = document.createElement('div');
+                div.innerHTML = args.join(' ');
+                logDom.appendChild(div);
+                logDom.scrollTop = 999999999;
+            }
+        }
+        // window.onerror = function(message, url, line, column, error){
+        //     setTimeout(function(){
+        //         alert('[message]:' + message + '\n[url]:' + url + '\n[line]:' + line + '\n');
+        //     }, 0);
+        // };
+</script>
+</html>

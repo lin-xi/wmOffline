@@ -21,7 +21,31 @@ cli.version = function() {
     // pic.convert(function(err, result) {
     //     console.log(result);
     // });
-    console.log('version 0.1.1');
+    var pkg = fs.readFileSync(__dirname + '/package.json');
+    pkg = JSON.parse(pkg);
+    console.log('');
+    console.log('');
+    console.log('');
+    console.log('');
+    console.log('              o                            _');
+    console.log('   ===========|                        ,--/  \\');
+    console.log('   ==百度外卖 |                    []==]_____/');
+    console.log('    ==========|                         \\   \\');
+    console.log('              |_____________             \\   \\');
+    console.log('        __  /  _,-----._     )           ｜   \\ ');
+    console.log('       |_||/_-~         `.  /            ｜   | ]] ');
+    console.log('         |//    百度外卖   \ |            /   /_-~ ~-_');
+    console.log('         //________________||           /  //________\\');
+    console.log('        //__|______________| \\_________/  //_/.-\\ \\~-.');
+    console.log('       ((_________________/_-o__________//_/ /   \\,\\   \\');
+    console.log('        |__/(  ((====)o===--~~」            (   ( (o/)  )');
+    console.log("             \\  ``=='  /                     \\   `--'  /");
+    console.log("              `-.___,-'     2016 Linxi        `-.___,-'");
+    console.log('                            version', pkg.version);
+    console.log('');
+    console.log('');
+    console.log('');
+    process.exit();
 }
 
 cli.help = function(){
@@ -29,9 +53,9 @@ cli.help = function(){
         '',
         '  Options:',
         '',
-        '    -h, --help     output usage information',
-        '    -v, --version  output the version number',
-        '    watch,     start the offline dev tool and watch the change of the configtion\'s watch folder',
+        '    -h,      output usage information',
+        '    -v,      output the version number',
+        '    watch,     start the offline dev tool and watch the change of the configured folder',
         '    open,      open the GUI page',
         ''
     ];
@@ -181,7 +205,7 @@ function traverse(zip, filePath, first) {
                     if (fileStat.isDirectory()) {
                         traverse(fz, tmpPath, false);
                     } else {
-                        fz.file(item, fs.readFileSync(tmpPath));
+                        fz.file(item, inject(tmpPath));
                         // console.log('add file:'+ item);
                         // fileHandle(tmpPath);
                     }
@@ -193,6 +217,19 @@ function traverse(zip, filePath, first) {
         // console.log('add file:'+ filePath);
         var fp = filePath.replace(path.dirname(filePath) + '/', '');
         zip.file(fp);
+    }
+}
+
+function inject(filePath){
+    var ext = path.extname(filePath);
+    if(ext == '.html'){
+        var js = '<script src="http://localhost:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
+        var text = fs.readFileSync(filePath, 'utf8');
+        text = text.replace(/<\!--(.*?)-->/mg, '');
+        text = text.replace(/<\/body>/, js + '</body>');
+        return new Buffer(text);
+    } else {
+        return fs.readFileSync(filePath);
     }
 }
 

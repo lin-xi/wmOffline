@@ -1,5 +1,9 @@
-var io = require('socket.io-client');
-var Message = require('./message.js');
+function Message(){
+    this.group = '';
+    this.type = '';
+    this.content = '';
+    this.from = '';
+}
 
 function Client(group) {
     this.group = group;
@@ -9,7 +13,6 @@ function Client(group) {
 Client.prototype.init = function() {
     var me = this;
     me._eventHub = {};
-    me._eventQueue = {};
 
     me.socket = io.connect('ws://127.0.0.1:8999/offline');
     me.socket.on('connect', function(data) {
@@ -29,20 +32,7 @@ Client.prototype.init = function() {
                 func && func(msg);
             });
         }
-        var funcs = me._eventQueue[msg.type];
-        while(funcs && funcs.length > 0){
-            var func = funcs.pop();
-            func && func(msg);
-        }
     });
-};
-
-Client.prototype.send = function(msg, func) {
-    msg.group = this.group;
-    this.onInnerMessage(msg.type + '_response', function(data){
-        func && func(data);
-    })
-    this.socket.emit(msg.type, msg);
 };
 
 Client.prototype.onMessage = function(evt, func) {
@@ -61,21 +51,17 @@ Client.prototype.ready = function(func) {
     }
 };
 
-Client.prototype.onInnerMessage = function(evt, func) {
-    var me = this;
-    if(!me._eventQueue[evt]){
-        me._eventQueue[evt] = [];
-    }
-    me._eventQueue[evt].push(func);
-};
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
 
-Client.prototype.reload = function(url, func) {
-    var msg = new Message();
-    msg.type = 'reload';
-    msg.content = {url: url};
-    this.send(msg, function(result){
-        func && func(result);
+var group = getQueryString('group');
+var cli = new Client(group);
+cli.ready(function(){
+    cli.onMessage('reload', function(data){
+        location.href = data.content.url;
     });
-};
-
-module.exports = Client;
+});
