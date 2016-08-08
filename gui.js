@@ -23,10 +23,10 @@ gui.open = function(group) {
         bar.terminate();
         console.log("服务已启动，访问http://localhost:8088?group=" + group);
         child.exec('open http://localhost:8088?group=' + group);
-    }, 4000);
+    }, 2000);
 
     var cp = child.fork(path.resolve(__dirname, 'server.js'), {
-        silent: false
+        silent: true
     });
     cp.on('message', function(msg){
 

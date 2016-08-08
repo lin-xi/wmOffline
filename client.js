@@ -81,6 +81,8 @@ cli.run = function(argv){
         } else if(first === 'open'){
             gui.open(group);
         } else {
+            cli.version();
+            cli.help();
         }
     });
 };
@@ -130,13 +132,14 @@ function setUpSockect(group, func){
 
         socket.checkVersion(cfg.version, function(result){
             if(result.content == 1){
-                console.log('有新版本发布，正在升级...');
-                console.log('npm update wm-offline -g');
-                child.exec('npm update wm-offline -g', function(err, stdout, stderr){
-                    console.log(stdout);
-                    console.log('已更新至最新版本,请重新客户端');
-                    process.exit();
-                });
+                console.log('有新版本发布');
+                console.log('请执行 npm update wm-offline -g 进行更新');
+                // child.exec('npm update wm-offline -g', function(err, stdout, stderr){
+                //     console.log(stdout);
+                //     console.log('已更新至最新版本,请重新客户端');
+                //     process.exit();
+                // });
+                process.exit();
             } else {
                 func && func();
             }
@@ -253,7 +256,7 @@ function doUpload(func) {
             _.upload(httpOption, {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
-                var url = 'http://'+ mats[1] + ':8086' + item.to.replace('/home/map/odp_cater/webroot', '') + output;
+                var url = path.join('http://', mats[1]+':8086', item.to.replace('/home/map/odp_cater/webroot', ''), output);
                 console.log('\n');
                 console.log('[upload] ', output, " >> ", toPath);
                 console.log('[url] ', url);

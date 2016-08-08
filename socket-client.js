@@ -1,3 +1,5 @@
+alert('socket-client');
+
 function Message(){
     this.group = '';
     this.type = '';
@@ -13,13 +15,16 @@ function Client(group) {
 Client.prototype.init = function() {
     var me = this;
     me._eventHub = {};
+    alert(window.io);
 
     me.socket = io.connect('ws://10.199.129.14:8999/offline');
     me.socket.on('connect', function(data) {
+        alert('connect true');
+
         var msg = new Message();
         msg.type = 'join';
         msg.group = me.group;
-        me.send(msg, function(data){
+        me.socket.send(msg, function(data){
             me.state = 'connected';
             me.ready && me.ready();
         });
@@ -59,9 +64,12 @@ function getQueryString(name) {
 }
 
 var group = getQueryString('group');
+alert(group);
 var cli = new Client(group);
 cli.ready(function(){
     cli.onMessage('reload', function(data){
+        alert(data.content.url);
+
         location.href = data.content.url;
     });
 });
