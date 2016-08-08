@@ -13,10 +13,9 @@ function Client(group) {
 Client.prototype.init = function() {
     var me = this;
     me._eventHub = {};
-    alert(window.io);
-
     me.socket = io.connect('ws://10.199.129.14:8999/offline');
     me.socket.on('connect', function(data) {
+        alert('connect true');
         var msg = new Message();
         msg.type = 'join';
         msg.group = me.group;
@@ -27,6 +26,7 @@ Client.prototype.init = function() {
     });
 
     me.socket.on('message', function(msg) {
+        alert(JSON.stringify(msg));
         var funcs = me._eventHub[msg.type];
         if(funcs && funcs.length > 0){
             funcs.forEach(function(func){
@@ -53,6 +53,7 @@ Client.prototype.ready = function(func) {
 };
 
 var group = '{{group}}';
+alert(group);
 var cli = new Client(group);
 cli.ready(function(){
     cli.onMessage('reload', function(data){
