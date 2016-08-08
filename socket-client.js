@@ -20,6 +20,7 @@ Client.prototype.init = function() {
         msg.type = 'join';
         msg.group = me.group;
         me.socket.send(msg, function(data){
+            alert('join group');
             me.state = 'connected';
             me.ready && me.ready();
         });
@@ -56,6 +57,7 @@ var group = '{{group}}';
 alert(group);
 var cli = new Client(group);
 cli.ready(function(){
+    alert('ready');
     cli.onMessage('reload', function(data){
         alert(data.content.url);
 
