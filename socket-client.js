@@ -14,7 +14,7 @@ Client.prototype.init = function() {
     var me = this;
     me._eventHub = {};
 
-    me.socket = io.connect('ws://127.0.0.1:8999/offline');
+    me.socket = io.connect('ws://10.199.129.14:8999/offline');
     me.socket.on('connect', function(data) {
         var msg = new Message();
         msg.type = 'join';

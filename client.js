@@ -224,7 +224,7 @@ function traverse(zip, filePath, first) {
 function inject(filePath){
     var ext = path.extname(filePath);
     if(ext == '.html'){
-        var js = '<script src="http://localhost:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
+        var js = '<script src="http://10.199.129.14:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
         var text = fs.readFileSync(filePath, 'utf8');
         text = text.replace(/<\!--(.*?)-->/mg, '');
         text = text.replace(/<\/body>/, js + '</body>');
