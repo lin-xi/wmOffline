@@ -125,10 +125,10 @@ function runWatch(path) {
 function setUpSockect(group, func){
     socket = new Client(group);
     socket.ready(function(){
-        var pkg = fs.readFileSync(path.resolve(__dirname, 'package.json'));
-        pkg = JSON.parse(pkg);
+        var cfg = fs.readFileSync(path.resolve(__dirname, 'package.json'));
+        cfg = JSON.parse(cfg);
 
-        socket.checkVersion(pkg.version, function(result){
+        socket.checkVersion(cfg.version, function(result){
             if(result.content == 1){
                 console.log('有新版本发布，正在升级...');
                 console.log('npm update wm-offline -g');

@@ -24,7 +24,7 @@ gui.open = function(group) {
         child.exec('open http://localhost:8088?group=' + group);
     }, 4000);
 
-    var cp = child.fork('./server.js', {
+    var cp = child.fork(path.resolve(__dirname, 'server.js'), {
         silent: true
     });
     cp.on('message', function(msg){
