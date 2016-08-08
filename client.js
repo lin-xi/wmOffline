@@ -125,7 +125,7 @@ function runWatch(path) {
 function setUpSockect(group, func){
     socket = new Client(group);
     socket.ready(function(){
-        var pkg = fs.readFileSync('./package.json');
+        var pkg = fs.readFileSync(__dirname + '/package.json');
         pkg = JSON.parse(pkg);
 
         socket.checkVersion(pkg.version, function(result){
@@ -253,7 +253,7 @@ function doUpload(func) {
             _.upload(httpOption, {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
-                var url =  "http://cp01-shimiao01.epc.baidu.com:8086/static/offline/" + output;
+                var url = 'http://'+ mats[1] + ':8086' + item.to.replace('/home/map/odp_cater/webroot', '') + output;
                 console.log('\n');
                 console.log('[upload] ', output, " >> ", toPath);
                 console.log('[url] ', url);

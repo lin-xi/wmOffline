@@ -78,4 +78,12 @@ Client.prototype.reload = function(url, func) {
     });
 };
 
+Client.prototype.getUrl = function(func) {
+    var msg = new Message();
+    msg.type = 'getUrl';
+    this.send(msg, function(result){
+        func && func(result);
+    });
+};
+
 module.exports = Client;
