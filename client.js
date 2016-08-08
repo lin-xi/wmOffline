@@ -21,7 +21,7 @@ cli.version = function() {
     // pic.convert(function(err, result) {
     //     console.log(result);
     // });
-    var pkg = fs.readFileSync(__dirname + '/package.json');
+    var pkg = fs.readFileSync(cli.execPath + '/package.json');
     pkg = JSON.parse(pkg);
     console.log('');
     console.log('');
@@ -65,6 +65,7 @@ cli.help = function(){
 
 cli.run = function(argv){
     cli.processCWD = process.cwd();
+    cli.execPath = processor.execPath();
     group = md5(Math.random() * 10000000 + Date.now());
     cache.put('group', group);
 
@@ -125,7 +126,7 @@ function runWatch(path) {
 function setUpSockect(group, func){
     socket = new Client(group);
     socket.ready(function(){
-        var pkg = fs.readFileSync(__dirname + '/package.json');
+        var pkg = fs.readFileSync(cli.execPath + '/package.json');
         pkg = JSON.parse(pkg);
 
         socket.checkVersion(pkg.version, function(result){
@@ -164,7 +165,7 @@ function packAndRelease() {
     var zip = new Zip();
     traverse(zip, root, true);
     // console.log('traverse done:');
-    zip.file('socket-client.js', fs.readFileSync(__dirname + '/socket-client.js'));
+    zip.file('socket-client.js', fs.readFileSync(cli.execPath + '/socket-client.js'));
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
         try{
