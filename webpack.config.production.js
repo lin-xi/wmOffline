@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var host = "localhost";
 var port = "8088";
+var md5 = new Date() * 1;
 
 // host可以改为ip 用于手机测试
 module.exports = {
@@ -14,19 +15,29 @@ module.exports = {
     },
     entry: {
         main: [
-            'webpack-dev-server/client?http://' + host + ':' + port,
-            'webpack/hot/only-dev-server',
             path.resolve(__dirname, 'page/src/main')
         ],
     },
     devtool: 'cheap-source-map', //https://github.com/webpack/docs/wiki/configuration#devtool
     output: {
-        path: path.join(__dirname, 'build'),
-        filename: '[name].js',
-        chunkFilename: "[id].chunk.js",
+        path: path.join(__dirname, 'page/build'),
+        filename: '[name]_'+ md5 +'.js',
+        chunkFilename: "[id].chunk_" + md5 +".js",
         publicPath: '', //网站运行时的访问路径
     },
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
+        // Webpack 提供了设置环境变量来优化代码
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
+        }),
         // 热替换 防止报错插件
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
@@ -45,7 +56,7 @@ module.exports = {
                 loader: 'babel', // 'babel-loader' is also a legal name to reference
                 include: [
                     // 只去解析运行目录下的 src文件夹
-                    path.join(process.cwd(), 'page/src'),
+                    path.join(__dirname, 'page/src'),
                 ],
             },
             {

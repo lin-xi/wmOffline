@@ -1,6 +1,7 @@
 var fs = require('fs');
 var child = require('child_process');
 var ProgressBar = require('progress');
+var path = require('path');
 var gui = {};
 
 gui.open = function(group) {
@@ -25,7 +26,7 @@ gui.open = function(group) {
     }, 4000);
 
     var cp = child.fork(path.resolve(__dirname, 'server.js'), {
-        silent: true
+        silent: false
     });
     cp.on('message', function(msg){
 

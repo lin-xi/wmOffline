@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+
 var md5 = new Date() * 1;
 var svgoConfig = JSON.stringify({
     plugins: [
