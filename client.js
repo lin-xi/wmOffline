@@ -164,7 +164,7 @@ function packAndRelease() {
     var zip = new Zip();
     traverse(zip, root, true);
     // console.log('traverse done:');
-    zip.file('socket-client.js', fs.readFileSync(path.resolve(__dirname, '../socket-client.js'));
+    zip.file('socket-client.js', fs.readFileSync(path.resolve(__dirname, '../socket-client.js')));
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
         try{
