@@ -6,7 +6,6 @@ var path = require('path');
 var child = require('child_process');
 var gui = require('./gui');
 var ProgressBar = require('progress');
-var cache = require('memory-cache');
 var md5 = require('md5');
 var Client = require('./lib/client/client');
 var Message = require('./lib/client/message');
@@ -66,7 +65,6 @@ cli.help = function(){
 cli.run = function(argv){
     cli.processCWD = process.cwd();
     group = md5(Math.random() * 10000000 + Date.now());
-    cache.put('group', group);
 
     setUpSockect(group, function(){
         var first = argv[2];
@@ -167,7 +165,7 @@ function packAndRelease() {
     var zip = new Zip();
     traverse(zip, root, true);
     // console.log('traverse done:');
-    zip.file('socket-client.js', fs.readFileSync(path.resolve(__dirname, 'socket-client.js')));
+    zip.file('socket-client.js', injectData(path.resolve(__dirname, 'socket-client.js'), {group: group}));
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
         try{
@@ -235,6 +233,14 @@ function inject(filePath){
     } else {
         return fs.readFileSync(filePath);
     }
+}
+
+function injectData(filePath, data){
+    var text = fs.readFileSync(filePath, 'utf8');
+    text = text.replace(/\{\{(.*?)\}\}/mg, function(s0, s1){
+        return data[s1];
+    });
+    return new Buffer(text);
 }
 
 function doUpload(func) {

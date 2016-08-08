@@ -1,5 +1,3 @@
-alert('socket-client');
-
 function Message(){
     this.group = '';
     this.type = '';
@@ -19,8 +17,6 @@ Client.prototype.init = function() {
 
     me.socket = io.connect('ws://10.199.129.14:8999/offline');
     me.socket.on('connect', function(data) {
-        alert('connect true');
-
         var msg = new Message();
         msg.type = 'join';
         msg.group = me.group;
@@ -56,15 +52,7 @@ Client.prototype.ready = function(func) {
     }
 };
 
-function getQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
-}
-
-var group = getQueryString('group');
-alert(group);
+var group = '{{group}}';
 var cli = new Client(group);
 cli.ready(function(){
     cli.onMessage('reload', function(data){
