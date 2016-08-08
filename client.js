@@ -65,7 +65,7 @@ cli.help = function(){
 
 cli.run = function(argv){
     cli.processCWD = process.cwd();
-    cli.execPath = process.execPath();
+    cli.execPath = process.execPath;
     group = md5(Math.random() * 10000000 + Date.now());
     cache.put('group', group);
 
