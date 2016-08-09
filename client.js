@@ -262,7 +262,12 @@ function doUpload(func) {
             _.upload(httpOption, {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
-                var url = 'http://' + mats[1] + ':8086' + item.to.replace('/home/map/odp_cater/webroot', '') + output;
+                var url = 'http://' + mats[1] + ':8086' + item.to.replace('/home/map/odp_cater/webroot', '');
+                if(url.slice(-1) == '/'){
+                    url += output;
+                } else {
+                    url += '/' + output;
+                }
                 console.log('\n');
                 console.log('[upload] ', output, " >> ", toPath);
                 console.log('[url] ', url);
