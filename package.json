@@ -1,6 +1,6 @@
 {
     "name": "wm-offline",
-    "version": "1.1.41",
+    "version": "1.1.42",
     "description": "waimai offline dev tool",
     "main": "client.js",
     "bin": {

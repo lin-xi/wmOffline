@@ -22,7 +22,11 @@ gui.open = function(group) {
         bar.tick(1000);
         bar.terminate();
         console.log("服务已启动，访问http://localhost:8088?group=" + group);
-        child.exec('open http://localhost:8088?group=' + group);
+        if(process.platform == 'win32' || process.platform == 'win64'){
+            child.exec('start http://localhost:8088?group=' + group);
+        } else {
+            child.exec('open http://localhost:8088?group=' + group);
+        }
     }, 2000);
 
     var cp = child.fork(path.resolve(__dirname, 'server.js'), {
