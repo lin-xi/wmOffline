@@ -10,6 +10,8 @@ import Chip from 'material-ui/Chip';
 import QRCode from 'qrcode.react';
 import Client from '../components/client/client';
 
+const ios = require('../assets/images/ios.png');
+const android = require('../assets/images/android.png');
 
 const styles = {
     chip: {
@@ -109,11 +111,11 @@ const IndexPage = React.createClass({
                     <h3>下载测试包</h3>
                     <div className="code c1">
                         <span className="left-2">
-                            <img src="http://172.17.138.208:8080/jenkins/job/WMapp/lastSuccessfulBuild/artifact/app/build/outputs/apk/image.png"/>
+                            <img src={ios}/>
                             <RaisedButton label="android" primary={true}/>
                         </span>
                         <span className="right-2">
-                            <img src="http://172.17.138.208:8080/jenkins/job/WMapp_iOS/395/artifact/image.png"/>
+                            <img src={android}/>
                             <RaisedButton label="ios" primary={true}/>
                         </span>
                     </div>
