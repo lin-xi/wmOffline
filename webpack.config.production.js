@@ -47,6 +47,11 @@ module.exports = {
             template: path.join(__dirname, 'page/src/index.html'),
             chunks: ['main'],
             inject: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'error.jade',
+            template: path.join(__dirname, 'page/src/error.jade'),
+            inject: false
         })
     ],
     module: {

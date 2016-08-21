@@ -1,59 +1,60 @@
 {
-    "name": "wm-offline",
-    "version": "1.1.44",
-    "description": "waimai offline dev tool",
-    "main": "client.js",
-    "bin": {
-        "wm-offline": "bin/offline"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lin-xi/wmOffline.git"
-    },
-    "keywords": [
-        "wm-offline",
-        "wmOffline",
-        "Offline"
-    ],
-    "author": "linxi",
-    "license": "MIT",
-    "dependencies": {
-        "express": "^4.14.0",
-        "jszip": "^3.0.0",
-        "material-ui": "^0.15.1",
-        "md5": "^2.1.0",
-        "memory-cache": "^0.1.6",
-        "progress": "^1.1.8",
-        "qrcode.react": "^0.6.1",
-        "react": "^0.14.3",
-        "react-dom": "^15.1.0",
-        "socket.io-client": "^1.4.8"
-    },
-    "devDependencies": {
-        "add-asset-html-webpack-plugin": "^0.2.0",
-        "autoprefixer-loader": "^3.2.0",
-        "babel": "^5.0.12",
-        "babel-core": "^5.0.12",
-        "babel-loader": "^5.0.0",
-        "babel-preset-es2015": "^6.1.2",
-        "babel-preset-react": "^6.1.2",
-        "css-loader": "^0.17.0",
-        "extract-text-webpack-plugin": "^1.0.1",
-        "file-loader": "^0.8.4",
-        "html-webpack-plugin": "^1.6.1",
-        "less": "^2.5.3",
-        "less-loader": "^2.2.0",
-        "react-hot-loader": "^1.1.5",
-        "react-proxy-loader": "^0.3.4",
-        "rimraf": "^2.4.4",
-        "style-loader": "^0.12.3",
-        "url-loader": "^0.5.6",
-        "webpack": "^1.8.4",
-        "webpack-dev-server": "^1.8.0",
-        "webpack-md5-hash": "0.0.4"
-    },
-    "scripts": {
-        "start": "node server.js",
-        "build": "rimraf page/build/* && webpack --config webpack.config.production.js"
-    }
+  "name": "wm-offline",
+  "version": "1.1.45",
+  "description": "waimai offline dev tool",
+  "main": "client.js",
+  "bin": {
+    "wm-offline": "bin/offline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lin-xi/wmOffline.git"
+  },
+  "keywords": [
+    "wm-offline",
+    "wmOffline",
+    "Offline"
+  ],
+  "author": "linxi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "jade": "^1.11.0",
+    "jszip": "^3.0.0",
+    "material-ui": "^0.15.1",
+    "md5": "^2.1.0",
+    "memory-cache": "^0.1.6",
+    "progress": "^1.1.8",
+    "qrcode.react": "^0.6.1",
+    "react": "^0.14.3",
+    "react-dom": "^15.1.0",
+    "socket.io-client": "^1.4.8"
+  },
+  "devDependencies": {
+    "add-asset-html-webpack-plugin": "^0.2.0",
+    "autoprefixer-loader": "^3.2.0",
+    "babel": "^5.0.12",
+    "babel-core": "^5.0.12",
+    "babel-loader": "^5.0.0",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-react": "^6.1.2",
+    "css-loader": "^0.17.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.4",
+    "html-webpack-plugin": "^1.6.1",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.0",
+    "react-hot-loader": "^1.1.5",
+    "react-proxy-loader": "^0.3.4",
+    "rimraf": "^2.4.4",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0",
+    "webpack-md5-hash": "0.0.4"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "rimraf page/build/* && webpack --config webpack.config.production.js"
+  }
 }

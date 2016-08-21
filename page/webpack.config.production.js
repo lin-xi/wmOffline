@@ -52,6 +52,11 @@ module.exports = {
             chunks: ['main', 'vendor'],
             inject: true
         }),
+        new HtmlWebpackPlugin({
+            filename: 'error.html',
+            template: path.join(__dirname, 'src/error.html'),
+            inject: false
+        }),
         new AddAssetHtmlPlugin({
             filename: require.resolve('./build/vendor.dll.js'),
             includeSourcemap: false
