@@ -48,3 +48,12 @@ https://github.com/fex-team/fis-command-release/blob/master/tools/receiver.php
 
 node version
 https://github.com/fex-team/receiver
+
+
+##tips
+
+mac 下杀进程的方法
+
+lsof -i tcp:8088
+
+kill -9 进程id
