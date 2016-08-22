@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react/lib/ReactComponentWithPureRenderMixin';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 import QRCode from 'qrcode.react';
@@ -12,10 +13,15 @@ import Client from '../components/client/client';
 
 const ios = require('../assets/images/ios.png');
 const android = require('../assets/images/android.png');
+const banff_ios = require('../assets/images/banff-ios.png');
 
 const styles = {
     chip: {
         margin: 10
+    },
+    radioButton: {
+        display: "inline-block",
+        width: '50%'
     }
 };
 
@@ -24,6 +30,7 @@ const IndexPage = React.createClass({
 
     getInitialState(){
         return {
+            platform: localStorage.getItem('platform') || 'waimai',
             pluginId: localStorage.getItem('pluginId') || '',
             pageName: localStorage.getItem('pageName') || '',
             title: localStorage.getItem('title') || '',
@@ -64,7 +71,11 @@ const IndexPage = React.createClass({
 
     getDebugUrl(){
         var me = this;
-        var url = 'bdwm://plugin?pluginId={pluginId}&pageName={pageName}&title={title}&scrollViewBounces=0';
+        var protocol = 'bdwm://';
+        if(me.state.platform == 'banff'){
+            protocol = 'banff://';
+        }
+        var url = protocol + 'plugin?pluginId={pluginId}&pageName={pageName}&title={title}&scrollViewBounces=0';
         url = url.replace(/\{(.*?)\}/g, function(s0, s1){
             if(s1 == 'title' || s1 == 'url'){
                 return encodeURIComponent(me.state[s1]);
@@ -91,6 +102,10 @@ const IndexPage = React.createClass({
                     <h3>调试</h3>
                     <div className="code">
                         <span className="left-3">
+                            <RadioButtonGroup id="platform" defaultSelected={this.state.platform} onChange={this.radioChange}>
+                                <RadioButton value="waimai" label="百度外卖" style={styles.radioButton}/>
+                                <RadioButton value="banff" label="banff" style={styles.radioButton}/>
+                            </RadioButtonGroup>
                             <TextField id="pluginId" onChange={this.handleChange} hintText="pluginId" floatingLabelText="pluginId" value={this.state.pluginId}/><br/>
                             <TextField id="pageName" onChange={this.handleChange} hintText="pageName" floatingLabelText="页面名称" value={this.state.pageName}/><br/>
                             <TextField id="title" onChange={this.handleChange} hintText="title" floatingLabelText="标题" value={this.state.title}/><br/>
@@ -110,13 +125,21 @@ const IndexPage = React.createClass({
 
                     <h3>下载测试包</h3>
                     <div className="code c1">
-                        <span className="left-2">
+                        <span className="left-4">
+                            <RaisedButton label="百度外卖android" primary={true}/><br/>
                             <img src={ios}/>
-                            <RaisedButton label="android" primary={true}/>
                         </span>
-                        <span className="right-2">
+                        <span className="left-4">
+                            <RaisedButton label="百度外卖ios" primary={true}/><br/>
                             <img src={android}/>
-                            <RaisedButton label="ios" primary={true}/>
+                        </span>
+                        <span className="left-4">
+                            <RaisedButton label="banff android" primary={true}/><br/>
+                            <img src=""/>
+                        </span>
+                        <span className="left-4">
+                            <RaisedButton label="banff ios" primary={true}/><br/>
+                            <img src={ios}/>
                         </span>
                     </div>
 
@@ -162,6 +185,13 @@ const IndexPage = React.createClass({
         var s = {};
         s[e.target.id] = e.target.value;
         this.setState(s);
+    },
+
+    radioChange(e, val){
+        localStorage.setItem('platform', val);
+        this.setState({
+            'platform': val
+        });
     }
 
 });
