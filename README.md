@@ -45,9 +45,10 @@ wm-offline open
 ```
 wm-offline build
 
-build the release package, resovle '<script id="wmapp"></script>' to real path.
+//build the release package, resovle '<script id="wmapp"></script>' to real path.
 
-put the tag '<script id="wmapp"></script>' in the head front of any other js, to accelerate the NA to ready, infact, the NA is ready anywhere in other js.
+//put the tag '<script id="wmapp"></script>' in the head front of any other js, to accelerate the NA to ready,
+//infact, the NA is ready anywhere in other js.
 ```
 
 ##receiver
