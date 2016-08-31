@@ -30,25 +30,24 @@ add offline-config.json to the root of your project
 ```
 
 ##usage
-```
-wm-offline watch
 
+wm-offline watch
+```
 //start the offline dev tool and watch the change of the configtion\'s watch folder
 ```
 
-```
-wm-offline open
 
+wm-offline open
+```
 //open the GUI page
 ```
 
-```
+
 wm-offline build
-
+```
 //build the release package, resovle '<script id="wmapp"></script>' to real path.
-
 //put the tag '<script id="wmapp"></script>' in the head front of any other js, to accelerate the NA to ready,
-//infact, the NA is ready anywhere in other js.
+//in fact, the NA is ready anywhere in other js.
 ```
 
 ##receiver
