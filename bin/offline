@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 var cli = require('../client.js');
-cli.run(s);
+cli.run(process.argv);
