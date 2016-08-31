@@ -41,6 +41,10 @@ const IndexPage = React.createClass({
 
     componentDidMount() {
         var me = this;
+        me.sak({
+            daSrc: 'wmOfflinePg.pagePV',
+            daAct: 'show'
+        });
         var group = this.getQueryString('group');
         var cli = this.client = new Client(group);
         cli.ready(function(){
@@ -59,6 +63,10 @@ const IndexPage = React.createClass({
     },
 
     componentDidUpdate() {
+        this.sak({
+            daSrc: 'wmOfflinePg.render',
+            daAct: 'click'
+        });
         this.client.reload(this.getDebugUrl());
     },
 
@@ -70,6 +78,10 @@ const IndexPage = React.createClass({
     },
 
     getDebugUrl(){
+        this.sak({
+            daSrc: 'wmOfflinePg.debugUrl',
+            daAct: 'click'
+        });
         var me = this;
         var protocol = 'bdwm://';
         if(me.state.platform == 'banff'){
@@ -188,10 +200,42 @@ const IndexPage = React.createClass({
     },
 
     radioChange(e, val){
+        this.sak({
+            daSrc: 'wmOfflinePg.plat_'+ val,
+            daAct: 'click'
+        });
         localStorage.setItem('platform', val);
         this.setState({
             'platform': val
         });
+    },
+
+    sak(data) {
+        var img = new Image();
+        var params = {
+            resid: 31,   //webapp
+            func: "place",
+            da_ver: "2.1.0",
+            da_trd: 'wm-offline',
+            page: 'wm-offline',
+            da_src: data.daSrc,
+            da_act: data.daAct,
+            from: 'webapp',  //webapp,na-iphone na-android, nuomi-iphone, nuomi-android
+            t: Date.now()
+        };
+        var url = 'http://log.waimai.baidu.com/static/transparent.gif?' + this.param(params);
+        img.onload = function () {
+            img = null;
+        };
+        img.src = url;
+    },
+
+    param(obj) {
+        var temp = [];
+        for (var key in obj) {
+            temp.push(key + '=' + encodeURIComponent(obj[key]));
+        }
+        return temp.join('&');
     }
 
 });
