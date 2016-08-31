@@ -56,6 +56,7 @@ cli.help = function(){
         '    -v,        output the version number',
         '    watch,     start the offline dev tool and watch the change of the configured folder',
         '    open,      open the GUI page',
+        '    build,     package',
         ''
     ];
     console.log(content.join('\n'));
@@ -78,6 +79,8 @@ cli.run = function(argv){
             gui.open(group);
         } else if(first === 'open'){
             gui.open(group);
+        } else if(first === 'build'){
+            cli.build(group);
         } else {
             cli.version();
             cli.help();
@@ -108,6 +111,21 @@ cli.watch = function(argv){
     }
 };
 
+cli.build = function(){
+    var configPath = cli.processCWD + '/offline-config.json';
+    var stat = fs.statSync(configPath);
+    if(stat.isFile()){
+        var jsData = fs.readFileSync(configPath);
+        try{
+            config = JSON.parse(jsData);
+            packAndRelease(true);
+        } catch (e){
+            console.error('"offline-config.json" parse error\n, see https://github.com/lin-xi/wmOffline');
+            return;
+        }
+    }
+};
+
 function runWatch(path) {
     fs.watch(path, {
         persistent: true
@@ -131,7 +149,7 @@ function setUpSockect(group, func){
         socket.checkVersion(cfg.version, function(result){
             if(result.content == 1){
                 console.log('有新版本发布');
-                console.log('请执行 npm update wm-offline -g 进行更新');
+                console.log('请执行 npm update wm-offline -g 进行更新\r\n如果失败,请卸载后重装');
                 // child.exec('npm update wm-offline -g', function(err, stdout, stderr){
                 //     console.log(stdout);
                 //     console.log('已更新至最新版本,请重新客户端');
@@ -145,7 +163,7 @@ function setUpSockect(group, func){
     });
 }
 
-function packAndRelease() {
+function packAndRelease(isBuild) {
     var root = path.resolve(cli.processCWD, config.watch);
 
     var pos = 1;
@@ -158,14 +176,19 @@ function packAndRelease() {
     var timer = setInterval(function () {
         bar.tick(pos++);
     }, 100);
-
-    output = 'output_' + md5(Date.now()) + '.zip';
+    if(!isBuild){
+        output = 'output_' + md5(Date.now()) + '.zip';
+    } else {
+        output = 'release.zip';
+    }
     // output = 'output.zip';
     outputPath = cli.processCWD + '/' + output;
     var zip = new Zip();
-    traverse(zip, root, true);
+    traverse(zip, root, true, isBuild);
     // console.log('traverse done:');
-    zip.file('socket-client.js', injectData(path.resolve(__dirname, 'socket-client.js'), {group: group}));
+    if(!isBuild){
+        zip.file('socket-client.js', injectData(path.resolve(__dirname, 'socket-client.js'), {group: group}));
+    }
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
         try{
@@ -174,11 +197,14 @@ function packAndRelease() {
             bar.tick(100);
             bar.terminate();
             console.log('\n');
-
-            doUpload(function(url){
-                // fs.unlink(outputPath);
-                socket.updateUrl(url);
-            });
+            if(!isBuild){
+                doUpload(function(url){
+                    // fs.unlink(outputPath);
+                    socket.updateUrl(url);
+                });
+            } else {
+                process.exit();
+            }
         }catch(e){
             console.error(e);
         }
@@ -186,7 +212,7 @@ function packAndRelease() {
 }
 
 
-function traverse(zip, filePath, first) {
+function traverse(zip, filePath, first, isBuild) {
     var state = fs.statSync(filePath);
     if (state.isDirectory()) {
         // folderHandle(path);
@@ -205,9 +231,9 @@ function traverse(zip, filePath, first) {
                 var fileStat = fs.statSync(tmpPath);
                 if (fileStat) {
                     if (fileStat.isDirectory()) {
-                        traverse(fz, tmpPath, false);
+                        traverse(fz, tmpPath, false, isBuild);
                     } else {
-                        fz.file(item, inject(tmpPath));
+                        fz.file(item, inject(tmpPath, isBuild));
                         // console.log('add file:'+ item);
                         // fileHandle(tmpPath);
                     }
@@ -222,13 +248,17 @@ function traverse(zip, filePath, first) {
     }
 }
 
-function inject(filePath){
+function inject(filePath, isBuild){
     var ext = path.extname(filePath);
     if(ext == '.html'){
         var js = '<script src="http://10.199.129.14:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
         var text = fs.readFileSync(filePath, 'utf8');
-        text = text.replace(/<\!--(.*?)-->/mg, '');
-        text = text.replace(/<\/body>/, js + '</body>');
+        if(isBuild){
+            text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
+        } else {
+            text = text.replace(/<\!--(.*?)-->/mg, '');
+            text = text.replace(/<\/body>/, js + '</body>');
+        }
         return new Buffer(text);
     } else {
         return fs.readFileSync(filePath);

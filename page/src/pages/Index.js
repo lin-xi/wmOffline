@@ -83,7 +83,7 @@ const IndexPage = React.createClass({
             return me.state[s1];
         });
         if(me.state.url){
-            url += '&url=' + encodeURIComponent(me.state.url);
+            url += '&downloadUrl=' + encodeURIComponent(me.state.url);
         }
         if(me.state.pageData){
             url += '&pageData=' + encodeURIComponent(me.state.pageData);
