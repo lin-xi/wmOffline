@@ -53,8 +53,8 @@ module.exports = {
             inject: true
         }),
         new HtmlWebpackPlugin({
-            filename: 'error.html',
-            template: path.join(__dirname, 'src/error.html'),
+            filename: 'error.jade',
+            template: path.join(__dirname, 'src/error.jade'),
             inject: false
         }),
         new AddAssetHtmlPlugin({

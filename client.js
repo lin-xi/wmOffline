@@ -15,7 +15,7 @@ var socket, group;
 
 var _ = {}, config, watchTimer, output, outputPath;
 
-cli.version = function() {
+cli.version = function () {
     // var pic = new Ascii('logo.png');
     // pic.convert(function(err, result) {
     //     console.log(result);
@@ -47,7 +47,7 @@ cli.version = function() {
     process.exit();
 }
 
-cli.help = function(){
+cli.help = function () {
     var content = [
         '',
         '  Options:',
@@ -63,23 +63,23 @@ cli.help = function(){
     process.exit();
 };
 
-cli.run = function(argv){
+cli.run = function (argv) {
     cli.processCWD = process.cwd();
     group = md5(Math.random() * 10000000 + Date.now());
 
-    setUpSockect(group, function(){
+    setUpSockect(group, function () {
         var first = argv[2];
-        if(first === '-h' ||  first === '--help'){
+        if (first === '-h' || first === '--help') {
             cli.help();
-        } else if(first === '-v' || first === '--version'){
+        } else if (first === '-v' || first === '--version') {
             cli.version();
-        } else if(first === 'watch'){
+        } else if (first === 'watch') {
             cli.watch();
             packAndRelease();
             gui.open(group);
-        } else if(first === 'open'){
+        } else if (first === 'open') {
             gui.open(group);
-        } else if(first === 'build'){
+        } else if (first === 'build') {
             cli.build(group);
         } else {
             cli.version();
@@ -88,22 +88,22 @@ cli.run = function(argv){
     });
 };
 
-cli.watch = function(argv){
+cli.watch = function (argv) {
     var configPath = cli.processCWD + '/offline-config.json';
     var stat = fs.statSync(configPath);
-    if(stat.isFile()){
+    if (stat.isFile()) {
         var jsData = fs.readFileSync(configPath);
-        try{
+        try {
             config = JSON.parse(jsData);
-        } catch (e){
+        } catch (e) {
             console.error('"offline-config.json" parse error\n, see https://github.com/lin-xi/wmOffline');
             return;
         }
         var root = path.resolve(cli.processCWD, config.watch);
-        if(root == cli.processCWD){
+        if (root == cli.processCWD) {
             console.log("config [watch] can not be the project root directory, it must be a child directory");
         } else {
-            console.log("监听中...[" + root  + "]");
+            console.log("监听中...[" + root + "]");
             runWatch(root);
         }
     } else {
@@ -111,15 +111,15 @@ cli.watch = function(argv){
     }
 };
 
-cli.build = function(){
+cli.build = function () {
     var configPath = cli.processCWD + '/offline-config.json';
     var stat = fs.statSync(configPath);
-    if(stat.isFile()){
+    if (stat.isFile()) {
         var jsData = fs.readFileSync(configPath);
-        try{
+        try {
             config = JSON.parse(jsData);
             packAndRelease(true);
-        } catch (e){
+        } catch (e) {
             console.error('"offline-config.json" parse error\n, see https://github.com/lin-xi/wmOffline');
             return;
         }
@@ -140,14 +140,14 @@ function runWatch(path) {
     });
 }
 
-function setUpSockect(group, func){
+function setUpSockect(group, func) {
     socket = new Client(group);
-    socket.ready(function(){
+    socket.ready(function () {
         var cfg = fs.readFileSync(path.resolve(__dirname, 'package.json'));
         cfg = JSON.parse(cfg);
 
-        socket.checkVersion(cfg.version, function(result){
-            if(result.content == 1){
+        socket.checkVersion(cfg.version, function (result) {
+            if (result.content == 1) {
                 console.log('有新版本发布');
                 console.log('请执行 npm update wm-offline -g 进行更新\r\n如果失败,请卸载后重装');
                 // child.exec('npm update wm-offline -g', function(err, stdout, stderr){
@@ -176,7 +176,7 @@ function packAndRelease(isBuild) {
     var timer = setInterval(function () {
         bar.tick(pos++);
     }, 100);
-    if(!isBuild){
+    if (!isBuild) {
         output = 'output_' + md5(Date.now()) + '.zip';
     } else {
         output = 'release.zip';
@@ -186,26 +186,26 @@ function packAndRelease(isBuild) {
     var zip = new Zip();
     traverse(zip, root, true, isBuild);
     // console.log('traverse done:');
-    if(!isBuild){
+    if (!isBuild) {
         zip.file('socket-client.js', injectData(path.resolve(__dirname, 'socket-client.js'), {group: group}));
     }
     zip.generateAsync({type: "nodebuffer", compression: "DEFLATE"}).then(function (content) {
         // console.log("done");
-        try{
+        try {
             fs.writeFileSync(outputPath, content);
             clearInterval(timer);
             bar.tick(100);
             bar.terminate();
             console.log('\n');
-            if(!isBuild){
-                doUpload(function(url){
+            if (!isBuild) {
+                doUpload(function (url) {
                     // fs.unlink(outputPath);
                     socket.updateUrl(url);
                 });
             } else {
                 process.exit();
             }
-        }catch(e){
+        } catch (e) {
             console.error(e);
         }
     });
@@ -217,10 +217,10 @@ function traverse(zip, filePath, first, isBuild) {
     if (state.isDirectory()) {
         // folderHandle(path);
         var fz;
-        if(first){
+        if (first) {
             fz = zip;
         } else {
-            var foler = filePath.replace(path.dirname(filePath)+ '/', '')
+            var foler = filePath.replace(path.dirname(filePath) + '/', '')
             fz = zip.folder(foler);
             // console.log('add folder:' + foler);
         }
@@ -248,26 +248,26 @@ function traverse(zip, filePath, first, isBuild) {
     }
 }
 
-function inject(filePath, isBuild){
+function inject(filePath, isBuild) {
     var ext = path.extname(filePath);
-    if(ext == '.html'){
+    if (ext == '.html') {
         var js = '<script src="http://10.199.129.14:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
         var text = fs.readFileSync(filePath, 'utf8');
-        if(isBuild){
-            text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
-        } else {
-            text = text.replace(/<\!--(.*?)-->/mg, '');
-            text = text.replace(/<\/body>/, js + '</body>');
-        }
+
+        text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
+
+        text = text.replace(/<\!--(.*?)-->/mg, '');
+        text = text.replace(/<\/head>/, js + '</head>');
+
         return new Buffer(text);
     } else {
         return fs.readFileSync(filePath);
     }
 }
 
-function injectData(filePath, data){
+function injectData(filePath, data) {
     var text = fs.readFileSync(filePath, 'utf8');
-    text = text.replace(/\{\{(.*?)\}\}/mg, function(s0, s1){
+    text = text.replace(/\{\{(.*?)\}\}/mg, function (s0, s1) {
         return data[s1];
     });
     return new Buffer(text);
@@ -293,7 +293,7 @@ function doUpload(func) {
                 to: toPath
             }, fileData, 'tmp_name', function (e, body) {
                 var url = 'http://' + mats[1] + ':8086' + item.to.replace('/home/map/odp_cater/webroot', '');
-                if(url.slice(-1) == '/'){
+                if (url.slice(-1) == '/') {
                     url += output;
                 } else {
                     url += '/' + output;
@@ -440,8 +440,8 @@ _.upload = function (opt, data, content, subpath, callback, errorFn) {
         var status = res.statusCode;
         var body = '';
         res.on('data', function (chunk) {
-                body += chunk;
-            })
+            body += chunk;
+        })
             .on('end', function () {
                 if (status >= 200 && status < 300 || status === 304) {
                     callback(null, body);
@@ -493,8 +493,8 @@ _.isUtf8 = function (bytes) {
                 (0x80 <= bytes[i + 2] && bytes[i + 2] <= 0xBF)
             ) || ( // straight 3-byte
                 ((0xE1 <= bytes[i] && bytes[i] <= 0xEC) ||
-                    bytes[i] == 0xEE ||
-                    bytes[i] == 0xEF) &&
+                bytes[i] == 0xEE ||
+                bytes[i] == 0xEF) &&
                 (0x80 <= bytes[i + 1] && bytes[i + 1] <= 0xBF) &&
                 (0x80 <= bytes[i + 2] && bytes[i + 2] <= 0xBF)
             ) || ( // excluding surrogates

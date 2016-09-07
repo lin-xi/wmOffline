@@ -55,6 +55,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "dev": "node dev.js",
     "build": "rimraf page/build/* && webpack --config webpack.config.production.js"
   }
 }
