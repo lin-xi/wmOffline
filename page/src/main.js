@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 import Index from './pages/Index';
-import TapEventPlugin from 'react/lib/TapEventPlugin';
 import PureRenderMixin from 'react/lib/ReactComponentWithPureRenderMixin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-TapEventPlugin.extractEvents();
+// TapEventPlugin.extractEvents();
 
 const App = React.createClass({
     mixins: [PureRenderMixin],
