@@ -88,7 +88,9 @@ var newConsole = function () {
     var msg;
     var logCache = [];
     return {
-        log: function (log) {
+        log: function () {
+            var logs = Array.prototype.slice.call(arguments, 0);
+            var log = logs.join('   ,   ');
             if (cli.state == 'connected') {
                 msg = new Message();
                 msg.group = cli.group;
