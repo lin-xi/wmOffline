@@ -253,12 +253,13 @@ function inject(filePath, isBuild) {
     if (ext == '.html') {
         var js = '<script src="http://10.199.129.14:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
         var text = fs.readFileSync(filePath, 'utf8');
-
-        text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
-
-        text = text.replace(/<\!--(.*?)-->/mg, '');
-        text = text.replace(/<\/head>/, js + '</head>');
-
+        if(isBuild) {
+            text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
+        } else {
+            text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
+            text = text.replace(/<\!--(.*?)-->/mg, '');
+            text = text.replace(/<\/head>/, js + '</head>');
+        }
         return new Buffer(text);
     } else {
         return fs.readFileSync(filePath);
