@@ -49,7 +49,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.join(__dirname, 'src/index.html'),
-            chunks: ['main', 'vendor'],
             inject: true
         }),
         new HtmlWebpackPlugin({
@@ -58,7 +57,7 @@ module.exports = {
             inject: false
         }),
         new AddAssetHtmlPlugin({
-            filename: require.resolve('./build/vendor.dll.js'),
+            filepath: require.resolve('./build/vendor.dll.js'),
             includeSourcemap: false
         }),
         new ExtractTextPlugin("[id].css", {allChunks: false})
