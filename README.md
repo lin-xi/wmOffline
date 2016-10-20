@@ -52,7 +52,7 @@ in fact, the NA is ready anywhere in other js.
 
 提前注入bridge
 
-+ 在header中添加标签<script id="wmapp"></script>
++ 在header中添加标签 ```<script id="wmapp"></script>```
 + wm-offline build
 
 ##receiver
