@@ -50,6 +50,11 @@ put the tag '<script id="wmapp"></script>' in the head front of any other js, to
 in fact, the NA is ready anywhere in other js.
 ```
 
+提前注入bridge
+
++ 在header中添加标签<script id="wmapp"></script>
++ wm-offline build
+
 ##receiver
 
 php version
@@ -60,6 +65,12 @@ https://github.com/fex-team/receiver
 
 
 ##release log
+
++ 1.1.51
+```
+   1. 修复react版本冲突bug
+   2. 添加日志调试console.log功能
+```
 
 + 1.1.47
 ```
