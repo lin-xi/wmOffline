@@ -9,7 +9,7 @@ var ProgressBar = require('progress');
 var md5 = require('md5');
 var Client = require('./lib/client/client');
 var Message = require('./lib/client/message');
-
+var serverConfig = require('./server-config')
 var cli = {};
 var socket, group;
 
@@ -66,7 +66,6 @@ cli.help = function () {
 cli.run = function (argv) {
     cli.processCWD = process.cwd();
     group = md5(Math.random() * 10000000 + Date.now());
-
     setUpSockect(group, function () {
         var first = argv[2];
         if (first === '-h' || first === '--help') {
@@ -251,9 +250,9 @@ function traverse(zip, filePath, first, isBuild) {
 function inject(filePath, isBuild) {
     var ext = path.extname(filePath);
     if (ext == '.html') {
-        var js = '<script src="http://10.199.129.14:8999/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
+        var js = '<script src="http://' + serverConfig.host + '/socket.io/socket.io.js"></script><script src="socket-client.js"></script>';
         var text = fs.readFileSync(filePath, 'utf8');
-        if(isBuild) {
+        if (isBuild) {
             text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');
         } else {
             text = text.replace(/<script\s*id\s*=\s*["']wmapp["']><\/script>/g, '<script src=\"../wmapp.js\"></script>');

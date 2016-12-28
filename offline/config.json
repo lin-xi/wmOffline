@@ -1,0 +1,9 @@
+{
+  "id": "bdwm.plugin.chisha",
+  "pages": [
+    {
+      "name": "index",
+      "file": "/index.html"
+    }
+  ]
+}

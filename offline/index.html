@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>指南</title>
+    <script>
+        window.NAStart = (function () {
+            var cbs = [];
+            return function (func) {
+                if (window.NAReady) {
+                    if (typeof func === 'function') cbs.push(func);
+                    cbs.forEach(function (cb) {
+                        cb(window.pageData);
+                    });
+                    cbs.length = 0;
+                } else {
+                    if (typeof func === 'function') {
+                        cbs.push(func);
+                    }
+                }
+            }
+        })();
+        if ((/wmapp/i).test(window.navigator.userAgent)) {
+            document.addEventListener('WMAppReady', function (pd) {
+                window.NAReady = true;
+                window.pageData = pd.pageData;
+                window.NAStart();
+            }, false);
+        }
+    </script>
+    <script src="../wmapp.js"></script>
+    <script>
+        window.alogObjectConfig = {
+            sample: '1',
+
+            product: '694',
+            page: '694_3',
+            monkey_page: '',
+            speed_page: '',
+
+            speed: {
+                sample: '1'
+            },
+
+            monkey: {
+                sample: '1'
+            },
+
+            exception: {
+                sample: '1'
+            },
+
+            feature: {
+                sample: '1'
+            },
+
+            cus: {
+                sample: '1'
+            },
+
+            csp: {
+                sample: '1',
+                'default-src': [
+                    {match: '*bae.baidu.com', target: 'Accept,Warn'},
+                    {
+                        match: '*.baidu.com,*.bdstatic.com,*.baidustatic.com,*.baiduimg.com,*.bdimg.com,localhost,*.hao123.com,*.hao123img.com',
+                        target: 'Accept'
+                    },
+                    {match: /^(127|172|192|10)(\.\d+){3}$/, target: 'Accept'},
+                    {match: '*', target: 'Accept,Warn'}
+                ]
+            }
+        };
+
+        void function (a, b, c, d, e, f, g) {
+            if (a.alogObjectName = e, a[e] = a[e] || function () {
+                                (a[e].q = a[e].q || []).push(arguments)
+                            }, a[e].l = a[e].l || +new Date, "https:" === a.location.protocol) {
+                if (d = "https://gss2.bdstatic.com/70cFsjip0QIZ8tyhnq" + d, !a.alogObjectConfig || !a.alogObjectConfig.sample)return
+            } else d = "http://img.baidu.com" + d;
+            var h = !0;
+            if (a.alogObjectConfig && a.alogObjectConfig.sample) {
+                var i = Math.random();
+                a.alogObjectConfig.rand = i, i > a.alogObjectConfig.sample && (h = !1)
+            }
+            h && (f = b.createElement(c), f.async = !0, f.src = d, g = b.getElementsByTagName(c)[0], g.parentNode.insertBefore(f, g))
+        }(window, document, "script", "/hunter/alog/alog.mobile.min.js", "alog"), void function () {
+            function a() {
+            }
+
+            window.PDC = {
+                mark: function (a, b) {
+                    alog("speed.set", a, b || +new Date), alog.fire && alog.fire("mark")
+                }, init: function (a) {
+                    alog("speed.set", "options", a)
+                }, view_start: a, tti: a, page_ready: a
+            }
+        }();
+        void function (n) {
+            var o = !1;
+            n.onerror = function (n, e, t, c) {
+                var i = !0;
+                return !e && /^script error/i.test(n) && (o ? i = !1 : o = !0), i && alog("exception.send", "exception", {
+                    msg: n,
+                    js: e,
+                    ln: t,
+                    col: c
+                }), !1
+            }, alog("exception.on", "catch", function (n) {
+                alog("exception.send", "exception", {msg: n.msg, js: n.path, ln: n.ln, method: n.method, flag: "catch"})
+            })
+        }(window);
+
+        alog && alog('speed.set', 'c_allstart', +new Date);
+        alog.fire && alog.fire("mark");
+    </script>
+</head>
+<script> alog('speed.set', 'ht', +new Date); </script>
+<script>
+    if (/QQ/i.test(window.navigator.userAgent) || /MicroMessenger/i.test(window.navigator.userAgent)) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = 'http://qzonestyle.gtimg.cn/qzone/qzact/common/share/share.js';
+        head.appendChild(script);
+        script.async = false;
+        script.onload = function () {
+            window.NAReady = true;
+            window.NAStart();
+        }
+    }
+</script>
+<body>
+<div id="app"></div>
+<script>
+    void function (e, t) {
+        for (var n = t.getElementsByTagName("img"), a = +new Date, i = [], o = function () {
+            this.removeEventListener && this.removeEventListener("load", o, !1), i.push({img: this, time: +new Date})
+        }, s = 0; s < n.length; s++)!function () {
+            var e = n[s];
+            e.addEventListener ? !e.complete && e.addEventListener("load", o, !1) : e.attachEvent && e.attachEvent("onreadystatechange", function () {
+                "complete" == e.readyState && o.call(e, o)
+            })
+        }();
+        alog("speed.set", {fsItems: i, fs: a})
+    }(window, document);
+</script>
+<script>
+    void function (a, b, c, d, e, f) {
+        function g(b) {
+            a.attachEvent ? a.attachEvent("onload", b, !1) : a.addEventListener && a.addEventListener("load", b)
+        }
+
+        function h(a, c, d) {
+            d = d || 15;
+            var e = new Date;
+            e.setTime((new Date).getTime() + 1e3 * d), b.cookie = a + "=" + escape(c) + ";path=/;expires=" + e.toGMTString()
+        }
+
+        function i(a) {
+            var c = b.cookie.match(new RegExp("(^| )" + a + "=([^;]*)(;|$)"));
+            return null != c ? unescape(c[2]) : null
+        }
+
+        function j() {
+            var a = i("PMS_JT");
+            if (a) {
+                h("PMS_JT", "", -1);
+                try {
+                    a = a.match(/{["']s["']:(\d+),["']r["']:["']([\s\S]+)["']}/), a = a && a[1] && a[2] ? {
+                        s: parseInt(a[1]),
+                        r: a[2]
+                    } : {}
+                } catch (c) {
+                    a = {}
+                }
+                a.r && b.referrer.replace(/#.*/, "") != a.r || alog("speed.set", "wt", a.s)
+            }
+        }
+
+        if (a.alogObjectConfig) {
+            var k = a.alogObjectConfig.sample, l = a.alogObjectConfig.rand;
+            if ("https:" === a.location.protocol) {
+                if (d = "https://gss2.bdstatic.com/70cFsjip0QIZ8tyhnq" + d, !k || !l)return
+            } else d = "http://img.baidu.com" + d;
+            k && l && l > k || (g(function () {
+                alog("speed.set", "lt", +new Date), e = b.createElement(c), e.async = !0, e.src = d + "?v=" + ~(new Date / 864e5), f = b.getElementsByTagName(c)[0], f.parentNode.insertBefore(e, f)
+            }), j())
+        }
+    }(window, document, "script", "/hunter/alog/dp.mobile.min.js");
+</script>
+<script type="text/javascript" src="vendor.dll.js"></script><script type="text/javascript" src="main_1482401685580.js"></script></body>
+</html>

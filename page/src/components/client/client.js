@@ -1,6 +1,6 @@
 var io = require('socket.io-client');
 var Message = require('./message.js');
-
+var serverConfig = require('../../../../server-config')
 function Client(group) {
     this.group = group;
     this.init();
@@ -11,7 +11,7 @@ Client.prototype.init = function() {
     me._eventHub = {};
     me._eventQueue = {};
 
-    me.socket = io.connect('ws://10.199.129.14:8999/offline');
+    me.socket = io.connect(serverConfig.server + serverConfig.path);
     me.socket.on('connect', function(data) {
         var msg = new Message();
         msg.type = 'join';
