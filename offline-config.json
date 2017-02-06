@@ -1,9 +1,0 @@
-{
-	"watch": "./offline",
-	"deploy": [
-		{
-			"receiver": "http://gzhxy-waimai-dcloud26.gzhxy.iwm.name:8225/receiver.php",
-			"to": "/home/map/odp_cater/webroot/static/offline"
-		}
-	]
-}

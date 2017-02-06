@@ -19,7 +19,4 @@ if (app.get('env') === 'development') {
         });
     });
 }
-
 app.listen('8088');
-
-console.log('\nServer listen at localhost:8088');

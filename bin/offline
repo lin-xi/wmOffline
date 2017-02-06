@@ -1,4 +1,24 @@
 #!/usr/bin/env node
+var program = require('commander');
+var fs = require('fs');
+var path = require('path');
+var build = require('../lib/build');
+var watch = require('../lib/watch');
+var pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json')));
+program
+    .version(pkg.version)
+    .command('watch')
+    .description('push offline zip to receiver')
+    .action(function () {
+        watch(process.cwd());
+    });
+program
+    .command('build')
+    .description('build release zip')
+    .action(function () {
+        build(process.cwd())
+    });
 
-var cli = require('../client.js');
-cli.run(process.argv);
+program.parse(process.argv);
+
+
