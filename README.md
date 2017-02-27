@@ -22,8 +22,8 @@ add offline-config.json to the root of your project
 	"watch": "./examples",
 	"deploy": [
 		{
-			"receiver": "http://cp01-shimiao01.epc.baidu.com:8797/receiver.php",
-			"to": "/home/map/odp_cater/webroot/static/offline"
+			"receiver": "http://...../receiver.php",
+			"to": "/some_directory/webroot/static/offline"
 		}
 	]
 }
