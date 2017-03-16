@@ -19,7 +19,8 @@ npm install -g wm-offline
 add offline-config.json to the root of your project
 ```
 {
-	"watch": "./examples"
+	"watch": "./examples",
+	"pluginId": "bdwm.plugin.pinzhi"
 }
 ```
 
