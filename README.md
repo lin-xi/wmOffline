@@ -10,12 +10,12 @@ waimai offline dev tool
 [download-image]: https://img.shields.io/npm/dm/wm-offline.svg?style=flat-square
 [download-url]: https://npmjs.org/package/wm-offline
 
-##install
+## install
 ```
 npm install -g wm-offline
 ```
 
-##config
+## config
 add offline-config.json to the root of your project
 ```
 {
@@ -29,7 +29,7 @@ add offline-config.json to the root of your project
 }
 ```
 
-##usage
+## usage
 
 wm-offline watch
 ```
@@ -55,7 +55,7 @@ in fact, the NA is ready anywhere in other js.
 + 在header中添加标签 ```<script id="wmapp"></script>```
 + wm-offline build
 
-##receiver
+## receiver
 
 php version
 https://github.com/fex-team/fis-command-release/blob/master/tools/receiver.php
@@ -64,7 +64,7 @@ node version
 https://github.com/fex-team/receiver
 
 
-##release log
+## release log
 
 + 1.1.51
 ```
@@ -79,7 +79,7 @@ https://github.com/fex-team/receiver
    3. 添加统计
 ```
 
-##tips
+## tips
 
 mac 下杀进程的方法
 
