@@ -93,8 +93,7 @@ const IndexPage = React.createClass({
     }
     ,
 
-    getDebugUrl()
-    {
+    getDebugUrl() {
         this.sak({
             daSrc: 'wmOfflinePg.debugUrl',
             daAct: 'click'
@@ -112,7 +111,11 @@ const IndexPage = React.createClass({
             return me.state[s1];
         });
         if (me.state.url) {
-            url += '&downloadUrl=' + encodeURIComponent(me.state.url);
+            if (me.state.platform == 'banff') {
+                url += '&url=' + encodeURIComponent(me.state.url);
+            } else {
+                url += '&downloadUrl=' + encodeURIComponent(me.state.url);
+            }
         }
         if (me.state.pageData) {
             url += '&pageData=' + encodeURIComponent(me.state.pageData);

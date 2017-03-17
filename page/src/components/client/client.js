@@ -1,6 +1,6 @@
 var io = require('socket.io-client');
 var Message = require('./message.js');
-var serverConfig = require('../../../../server-config')
+var serverConfig = require('../../../../lib/server-config')
 function Client(group) {
     this.group = group;
     this.init();
