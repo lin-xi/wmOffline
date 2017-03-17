@@ -1,0 +1,202 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish',
+1 verbose cli   'wm-offline' ]
+2 info using npm@3.8.9
+3 info using node@v6.2.0
+4 verbose publish [ 'wm-offline' ]
+5 silly cache add args [ 'wm-offline', null ]
+6 verbose cache add spec wm-offline
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: 'wm-offline',
+7 silly cache add   scope: null,
+7 silly cache add   name: 'wm-offline',
+7 silly cache add   rawSpec: '',
+7 silly cache add   spec: 'latest',
+7 silly cache add   type: 'tag' }
+8 silly addNamed wm-offline@latest
+9 verbose addNamed "latest" is being treated as a dist-tag for wm-offline
+10 info addNameTag [ 'wm-offline', 'latest' ]
+11 silly mapToRegistry name wm-offline
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry data Result {
+14 silly mapToRegistry   raw: 'wm-offline',
+14 silly mapToRegistry   scope: null,
+14 silly mapToRegistry   name: 'wm-offline',
+14 silly mapToRegistry   rawSpec: '',
+14 silly mapToRegistry   spec: 'latest',
+14 silly mapToRegistry   type: 'tag' }
+15 silly mapToRegistry uri https://registry.npmjs.org/wm-offline
+16 verbose addNameTag registry:https://registry.npmjs.org/wm-offline not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/wm-offline
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 19:05:18
+20 verbose request using bearer token for auth
+21 verbose request id 5c5715de08c7c20b
+22 http request GET https://registry.npmjs.org/wm-offline
+23 http 200 https://registry.npmjs.org/wm-offline
+24 verbose headers { server: 'nginx/1.10.1',
+24 verbose headers   'content-type': 'application/json',
+24 verbose headers   'last-modified': 'Mon, 06 Feb 2017 10:48:02 GMT',
+24 verbose headers   etag: 'W/"58985462-1be42"',
+24 verbose headers   'content-encoding': 'gzip',
+24 verbose headers   'cache-control': 'max-age=300',
+24 verbose headers   'transfer-encoding': 'chunked',
+24 verbose headers   'accept-ranges': 'bytes',
+24 verbose headers   date: 'Fri, 17 Mar 2017 11:05:03 GMT',
+24 verbose headers   via: '1.1 varnish',
+24 verbose headers   connection: 'keep-alive',
+24 verbose headers   'x-served-by': 'cache-nrt6128-NRT',
+24 verbose headers   'x-cache': 'MISS',
+24 verbose headers   'x-cache-hits': '0',
+24 verbose headers   'x-timer': 'S1489748702.738968,VS0,VE607',
+24 verbose headers   vary: 'Accept-Encoding' }
+25 silly get cb [ 200,
+25 silly get   { server: 'nginx/1.10.1',
+25 silly get     'content-type': 'application/json',
+25 silly get     'last-modified': 'Mon, 06 Feb 2017 10:48:02 GMT',
+25 silly get     etag: 'W/"58985462-1be42"',
+25 silly get     'content-encoding': 'gzip',
+25 silly get     'cache-control': 'max-age=300',
+25 silly get     'transfer-encoding': 'chunked',
+25 silly get     'accept-ranges': 'bytes',
+25 silly get     date: 'Fri, 17 Mar 2017 11:05:03 GMT',
+25 silly get     via: '1.1 varnish',
+25 silly get     connection: 'keep-alive',
+25 silly get     'x-served-by': 'cache-nrt6128-NRT',
+25 silly get     'x-cache': 'MISS',
+25 silly get     'x-cache-hits': '0',
+25 silly get     'x-timer': 'S1489748702.738968,VS0,VE607',
+25 silly get     vary: 'Accept-Encoding' } ]
+26 verbose get saving wm-offline to /Users/linxi/.npm/registry.npmjs.org/wm-offline/.cache.json
+27 verbose correctMkdir /Users/linxi/.npm correctMkdir not in flight; initializing
+28 silly addNameTag next cb for wm-offline with tag latest
+29 silly addNamed wm-offline@1.2.0
+30 verbose addNamed "1.2.0" is a plain semver version for wm-offline
+31 silly cache afterAdd wm-offline@1.2.0
+32 verbose afterAdd /Users/linxi/.npm/wm-offline/1.2.0/package/package.json not in flight; writing
+33 verbose correctMkdir /Users/linxi/.npm correctMkdir not in flight; initializing
+34 verbose afterAdd /Users/linxi/.npm/wm-offline/1.2.0/package/package.json written
+35 silly publish { name: 'wm-offline',
+35 silly publish   version: '1.2.0',
+35 silly publish   description: 'waimai offline dev tool',
+35 silly publish   main: 'client.js',
+35 silly publish   bin: { 'wm-offline': 'bin/offline' },
+35 silly publish   repository:
+35 silly publish    { type: 'git',
+35 silly publish      url: 'git+https://github.com/lin-xi/wmOffline.git' },
+35 silly publish   keywords: [ 'wm-offline', 'wmOffline', 'Offline' ],
+35 silly publish   author: { name: 'linxi' },
+35 silly publish   license: 'MIT',
+35 silly publish   dependencies:
+35 silly publish    { bluebird: '^3.4.7',
+35 silly publish      chalk: '^1.1.3',
+35 silly publish      commander: '^2.9.0',
+35 silly publish      express: '^4.14.0',
+35 silly publish      jade: '^1.11.0',
+35 silly publish      jszip: '^3.0.0',
+35 silly publish      'material-ui': '^0.15.1',
+35 silly publish      md5: '^2.1.0',
+35 silly publish      'memory-cache': '^0.1.6',
+35 silly publish      ora: '^1.1.0',
+35 silly publish      progress: '^1.1.8',
+35 silly publish      'qrcode.react': '^0.6.1',
+35 silly publish      react: '^15.3.2',
+35 silly publish      'react-dom': '^15.3.2',
+35 silly publish      'react-tap-event-plugin': '^1.0.0',
+35 silly publish      'socket.io-client': '^1.4.8' },
+35 silly publish   devDependencies:
+35 silly publish    { 'add-asset-html-webpack-plugin': '^0.2.0',
+35 silly publish      'autoprefixer-loader': '^3.2.0',
+35 silly publish      babel: '^5.0.12',
+35 silly publish      'babel-core': '^5.0.12',
+35 silly publish      'babel-loader': '^5.0.0',
+35 silly publish      'babel-preset-es2015': '^6.1.2',
+35 silly publish      'babel-preset-react': '^6.1.2',
+35 silly publish      'css-loader': '^0.17.0',
+35 silly publish      'extract-text-webpack-plugin': '^1.0.1',
+35 silly publish      'file-loader': '^0.8.4',
+35 silly publish      'html-webpack-plugin': '^1.6.1',
+35 silly publish      less: '^2.5.3',
+35 silly publish      'less-loader': '^2.2.0',
+35 silly publish      'react-hot-loader': '^1.1.5',
+35 silly publish      'react-proxy-loader': '^0.3.4',
+35 silly publish      rimraf: '^2.4.4',
+35 silly publish      'style-loader': '^0.12.3',
+35 silly publish      'url-loader': '^0.5.6',
+35 silly publish      webpack: '^1.8.4',
+35 silly publish      'webpack-dev-server': '^1.8.0',
+35 silly publish      'webpack-md5-hash': '0.0.4' },
+35 silly publish   scripts:
+35 silly publish    { start: 'node server.js',
+35 silly publish      dev: 'node dev.js',
+35 silly publish      build: 'rimraf page/build/* && webpack --config webpack.config.production.js' },
+35 silly publish   readme: '# wmOffline\nwaimai offline dev tool\n\n[![NPM version][npm-image]][npm-url]\n[![npm download][download-image]][download-url]\n\n[npm-image]: http://img.shields.io/npm/v/wm-offline.svg?style=flat-square\n\n[npm-url]: http://npmjs.org/package/wm-offline\n[download-image]: https://img.shields.io/npm/dm/wm-offline.svg?style=flat-square\n[download-url]: https://npmjs.org/package/wm-offline\n\n##install\n```\nnpm install -g wm-offline\n```\n\n##config\nadd offline-config.json to the root of your project\n```\n{\n\t"watch": "./examples",\n\t"deploy": [\n\t\t{\n\t\t\t"receiver": "http://cp01-shimiao01.epc.baidu.com:8797/receiver.php",\n\t\t\t"to": "/home/map/odp_cater/webroot/static/offline"\n\t\t}\n\t]\n}\n```\n\n##usage\n\nwm-offline watch\n```\nstart the offline dev tool and watch the change of the configtion\\\'s watch folder\n```\n\n\nwm-offline open\n```\nopen the GUI page\n```\n\n\nwm-offline build\n```\nbuild the release package, resovle \'<script id="wmapp"></script>\' to real path.\nput the tag \'<script id="wmapp"></script>\' in the head front of any other js, to accelerate the NA to ready,\nin fact, the NA is ready anywhere in other js.\n```\n\n提前注入bridge\n\n+ 在header中添加标签 ```<script id="wmapp"></script>```\n+ wm-offline build\n\n##receiver\n\nphp version\nhttps://github.com/fex-team/fis-command-release/blob/master/tools/receiver.php\n\nnode version\nhttps://github.com/fex-team/receiver\n\n\n##release log\n\n+ 1.1.51\n```\n   1. 修复react版本冲突bug\n   2. 添加日志调试console.log功能\n```\n\n+ 1.1.47\n```\n   1. 添加wm-offline build, build打的包不会注入socket，然后会解析<script id="wmapp"></script>\n   2. 离线协议修改，url -> downloadUrl\n   3. 添加统计\n```\n\n##tips\n\nmac 下杀进程的方法\n\nlsof -i tcp:8088\n\nkill -9 进程id\n',
+35 silly publish   readmeFilename: 'README.md',
+35 silly publish   gitHead: 'f73617bcbe17008aa83447dcbcd127933e6987ac',
+35 silly publish   bugs: { url: 'https://github.com/lin-xi/wmOffline/issues' },
+35 silly publish   homepage: 'https://github.com/lin-xi/wmOffline#readme',
+35 silly publish   _id: 'wm-offline@1.2.0',
+35 silly publish   _shasum: '0b6ef2ef6eee2ad25757fa33e4968af28eddcd0e',
+35 silly publish   _from: 'wm-offline@latest' }
+36 info lifecycle wm-offline@1.2.0~prepublish: wm-offline@1.2.0
+37 silly lifecycle wm-offline@1.2.0~prepublish: no script for prepublish, continuing
+38 verbose getPublishConfig undefined
+39 silly mapToRegistry name wm-offline
+40 silly mapToRegistry using default registry
+41 silly mapToRegistry registry https://registry.npmjs.org/
+42 silly mapToRegistry data Result {
+42 silly mapToRegistry   raw: 'wm-offline',
+42 silly mapToRegistry   scope: null,
+42 silly mapToRegistry   name: 'wm-offline',
+42 silly mapToRegistry   rawSpec: '',
+42 silly mapToRegistry   spec: 'latest',
+42 silly mapToRegistry   type: 'tag' }
+43 silly mapToRegistry uri https://registry.npmjs.org/wm-offline
+44 verbose publish registryBase https://registry.npmjs.org/
+45 silly publish uploading /Users/linxi/.npm/wm-offline/1.2.0/package.tgz
+46 verbose request uri https://registry.npmjs.org/wm-offline
+47 verbose request sending authorization for write operation
+48 info attempt registry request try #1 at 19:05:23
+49 verbose request using bearer token for auth
+50 http request PUT https://registry.npmjs.org/wm-offline
+51 http 403 https://registry.npmjs.org/wm-offline
+52 verbose headers { 'content-type': 'application/json',
+52 verbose headers   'cache-control': 'max-age=300',
+52 verbose headers   'content-length': '95',
+52 verbose headers   'accept-ranges': 'bytes',
+52 verbose headers   date: 'Fri, 17 Mar 2017 11:05:06 GMT',
+52 verbose headers   via: '1.1 varnish',
+52 verbose headers   connection: 'keep-alive',
+52 verbose headers   'x-served-by': 'cache-nrt6128-NRT',
+52 verbose headers   'x-cache': 'MISS',
+52 verbose headers   'x-cache-hits': '0',
+52 verbose headers   'x-timer': 'S1489748705.007908,VS0,VE1473',
+52 verbose headers   vary: 'Accept-Encoding' }
+53 verbose request invalidating /Users/linxi/.npm/registry.npmjs.org/wm-offline on PUT
+54 error publish Failed PUT 403
+55 verbose stack Error: "You cannot publish over the previously published version 1.2.0." : wm-offline
+55 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+55 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+55 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+55 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:200:22)
+55 verbose stack     at emitTwo (events.js:106:13)
+55 verbose stack     at Request.emit (events.js:191:7)
+55 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+55 verbose stack     at emitOne (events.js:101:20)
+55 verbose stack     at Request.emit (events.js:188:7)
+55 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:988:12)
+56 verbose statusCode 403
+57 verbose pkgid wm-offline
+58 verbose cwd /Users/linxi/work/javascript/waimai/wmOffline
+59 error Darwin 16.4.0
+60 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish" "wm-offline"
+61 error node v6.2.0
+62 error npm  v3.8.9
+63 error code E403
+64 error "You cannot publish over the previously published version 1.2.0." : wm-offline
+65 error If you need help, you may report this error at:
+65 error     <https://github.com/npm/npm/issues>
+66 verbose exit [ 1, true ]
