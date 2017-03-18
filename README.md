@@ -31,13 +31,6 @@ wm-offline watch
 start the offline dev tool and watch the change of the configtion\'s watch folder
 ```
 
-
-wm-offline open
-```
-open the GUI page
-```
-
-
 wm-offline build
 ```
 build the release package, resovle '<script id="wmapp"></script>' to real path.
