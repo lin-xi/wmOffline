@@ -1,6 +1,6 @@
 {
   "name": "wm-offline",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "waimai offline dev tool",
   "main": "client.js",
   "bin": {
@@ -15,7 +15,7 @@
     "wmOffline",
     "Offline"
   ],
-  "author": "linxi",
+  "author": "lin-xi",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.7",
