@@ -20,12 +20,12 @@ add offline-config.json to the root of your project
 ```
 {
 	"watch": "./examples",
-	"pluginId": "bdwm.plugin.pinzhi",
+	"pluginId": "some pluginId",
 	"deploy": [
 		{
-			"receiver": "http://gzhxy-waimai-dcloud25.gzhxy.iwm.name:8325/receiver.php",
-			"to": "/home/map/odp_cater/webroot/static/offline",
-			"publicPort": 8109
+			"receiver": "http://some servername/receiver.php",
+			"to": "/some path",
+			"publicPort": some port
 		}
 	]
 }
